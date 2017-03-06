@@ -172,7 +172,8 @@
                 	},
                 	layout: {
                 		improvedLayout:true,
-                		//randomSeed: 296570,
+						randomSeed: 851884
+                		//randomSeed: 296570, 
           				// hierarchical: 	{
             		// 			 //sortMethod: 'directed',
           				// 				},
@@ -190,13 +191,20 @@
                 container: '',
                 disabled: false,
                 methods: {
+            	    selectsubtree : function (selectedNodes) {
+            	        let connectedNodes = [];
+						selectedNodes.forEach( function(node, i, arr){
+						    	connectedNodes = this.network.getConnectedNodes(node)
+							}, this)
+
+                    },
 					neighbourhoodHighlight : function(params) {
                 		 if (params.nodes.length > 0) {
-			      let degrees = 10;
+			      var degrees = 10;
 			      this.highlightActive = true;
-			      let i,j;
-			      let selectedNode = params.nodes[0];
-			      
+			      var i,j;
+			      var selectedNodes = params.nodes;
+			      var connectedNodes = [];
 
 			      // mark all nodes as hard to read.
 			      for (var nodeId in this.allNodes) {
@@ -207,15 +215,29 @@
 			           this.allNodes[nodeId]['icon'] = {color : 'rgba(200,200,200,0.5)'};
 			        }
 			      }
-			      let connectedNodes = this.network.getConnectedNodes(selectedNode);
-			      let allConnectedNodes = [];
+			      selectedNodes.forEach(function(item, i, arr){
+                      connectedNodes = connectedNodes.concat(this.network.getConnectedNodes(item));
+                      // the main node gets its own color and its label back.
+                      this.allNodes[item].color = undefined;
+                      if ( this.allNodes[item].hiddenLabel !== undefined) {
+                          this.allNodes[item].label =  this.allNodes[item].hiddenLabel;
+                          this.allNodes[item].hiddenLabel = undefined;
+                          delete this.allNodes[item].icon;
+                      }
+                  }, this);
 
-			      // get the second degree nodes
-			      for (i = 1; i < degrees; i++) {
-			        for (j = 0; j < connectedNodes.length; j++) {
-			          allConnectedNodes = allConnectedNodes.concat(this.network.getConnectedNodes(connectedNodes[j]));
-			        }
-			      }
+			      var allConnectedNodes = [];
+
+				  // get the second degree nodes
+//				  for (i = 1; i < degrees; i++) {
+					for (j = 0; j < connectedNodes.length; j++) {
+					  allConnectedNodes = allConnectedNodes.concat(this.network.getConnectedNodes(connectedNodes[j]));
+					  allConnectedNodes = allConnectedNodes.filter(function (el) {
+						  return !selectedNodes.includes(el);
+                      })
+					}
+//				  }
+
 
 			      // all second degree nodes get a different color and their label back
 			      for (i = 0; i < allConnectedNodes.length; i++) {
@@ -236,14 +258,6 @@
 			           delete this.allNodes[connectedNodes[i]].icon;
 			        }
 			      }
-
-			      // the main node gets its own color and its label back.
-			       this.allNodes[selectedNode].color = undefined;
-			      if ( this.allNodes[selectedNode].hiddenLabel !== undefined) {
-			         this.allNodes[selectedNode].label =  this.allNodes[selectedNode].hiddenLabel;
-			         this.allNodes[selectedNode].hiddenLabel = undefined;
-			         delete this.allNodes[selectedNode].icon.color;
-			      }
 			    }
 			    else if (this.highlightActive === true) {
 			      // reset all nodes
@@ -259,7 +273,7 @@
 			    }
 
 			    // transform the object into an array
-			    let updateArray = [];
+			    var updateArray = [];
 			    for (var nodeId in  this.allNodes) {
 			      if ( this.allNodes.hasOwnProperty(nodeId)) {
 			        updateArray.push( this.allNodes[nodeId]);
