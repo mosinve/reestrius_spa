@@ -1,0 +1,85 @@
+.container {
+min-height: 100vh;
+}
+
+.Site-header,
+.Site-footer {
+  flex: none; /* 2 */
+}
+
+#app {
+  flex: 1 0 auto; /* 2 */
+  padding: var(--space) var(--space) 0;
+  width: 100%;
+}
+#app::after {
+  content: '\00a0'; /* &nbsp; */
+  display: block;
+  margin-top: var(--space);
+  height: 0px;
+  visibility: hidden;
+}
+@media (--break-lg) {
+  .Site-content {
+    padding-top: var(--space-lg);
+  }
+  .Site-content::after {
+    margin-top: var(--space-lg);
+  }
+}
+
+.Site-content--full {
+  padding: 0;
+}
+.Site-content--full::after {
+  content: none;
+}
+
+/*.canvas-wrap { position:relative; width:100%; height:100%; float: left;}
+.canvas-wrap canvas { position:absolute; top:0; left:0; z-index:0 }
+*/
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active для <2.1.8 */ {
+  opacity: 0
+}
+
+.card-header {
+	cursor: move;
+}
+
+/*.VueTables__child-row-toggler {
+  width:16px;
+  height:16px;
+  line-height: 16px;
+  display: block;
+  margin: auto;
+  text-align: center;
+}*/
+
+.VueTables__child-row-toggler--closed::before {
+   content: "+";
+}
+
+.VueTables__child-row-toggler--open::before  {
+    content: "-";
+}
+
+.VueTables {
+  margin: 0 auto;
+}
+
+ .VueTables__group-row {
+  background-color: #B7B7B7!important;
+ }
+
+/* #canvas {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+ }*/
+
+ .canvas-wrap {flex:  1;}
+.vis-network  {position: relative; width: 100%; height: 100%; flex: 1;}
+.vis-network canvas {top: 0; left: 0; position: absolute !important;}
