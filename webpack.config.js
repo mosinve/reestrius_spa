@@ -3,6 +3,9 @@ var webpack = require('webpack')
 
 module.exports = {
   entry: './src/main.js',
+  node: {
+    fs: "empty"
+  },
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
@@ -42,7 +45,7 @@ module.exports = {
         {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/font-woff"},
         {test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/octet-stream"},
         {test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader"},
-        { test: /node_modules[\\\/]vis[\\\/].*\.js$/,
+        {test: /node_modules[\\\/]vis[\\\/].*\.js$/,
                  loader: 'babel-loader',
                  query: {
                      cacheDirectory: true,
@@ -59,8 +62,6 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       'jquery': 'jquery/src/jquery',
-       // 'cytoscape': 'cytoscape/dist/cytoscape.min.js',
-       // 'dagre': 'dagre/dist/dagre.min.js',
     }
   },
   devServer: {
@@ -70,7 +71,7 @@ module.exports = {
   performance: {
     hints: false
   },
-    devtool: 'source-map',
+  devtool: "inline-source-map",
   plugins: [
   new webpack.NamedModulesPlugin(),
   new webpack.ProvidePlugin({
@@ -80,26 +81,24 @@ module.exports = {
     "window.jQuery": "jquery",
     Tether: "tether",
     "window.Tether": "tether",
-    Alert: "exports-loader?Alert!bootstrap/js/dist/alert",
-    Button: "exports-loader?Button!bootstrap/js/dist/button",
-    Carousel: "exports-loader?Carousel!bootstrap/js/dist/carousel",
-    Collapse: "exports-loader?Collapse!bootstrap/js/dist/collapse",
-    Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown",
-    Modal: "exports-loader?Modal!bootstrap/js/dist/modal",
-    Popover: "exports-loader?Popover!bootstrap/js/dist/popover",
-    Scrollspy: "exports-loader?Scrollspy!bootstrap/js/dist/scrollspy",
-    Tab: "exports-loader?Tab!bootstrap/js/dist/tab",
-    Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
-    Util: "exports-loader?Util!bootstrap/js/dist/util",
+    // Alert: "exports-loader?Alert!bootstrap/js/dist/alert",
+    // Button: "exports-loader?Button!bootstrap/js/dist/button",
+    // Carousel: "exports-loader?Carousel!bootstrap/js/dist/carousel",
+    // Collapse: "exports-loader?Collapse!bootstrap/js/dist/collapse",
+    // Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown",
+    // //Modal: "exports-loader?Modal!bootstrap/js/dist/modal",
+    // Popover: "exports-loader?Popover!bootstrap/js/dist/popover",
+    // Scrollspy: "exports-loader?Scrollspy!bootstrap/js/dist/scrollspy",
+    // Tab: "exports-loader?Tab!bootstrap/js/dist/tab",
+    // Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
+    // Util: "exports-loader?Util!bootstrap/js/dist/util",
     Vue:"vue",
-    // cytoscape:"cytoscape",
-    // dagre: "dagre",
   })
 ]
-}
+};
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
+  module.exports.devtool = '#source-map';
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({

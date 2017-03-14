@@ -28,7 +28,7 @@ return function(h) {
 return <div class={"w-75 VueTables VueTables--" + this.source}>
   <div class="row">
     <div class="col-md-6">
-      {normalFilter}
+      {/*{normalFilter}*/}
     </div>
     <div class="col-md-6">
       {dropdownPagination}
