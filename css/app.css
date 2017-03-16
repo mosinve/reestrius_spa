@@ -83,3 +83,7 @@ min-height: 100vh;
  .canvas-wrap {flex:  1;}
 .vis-network  {position: relative; width: 100%; height: 100%; flex: 1;}
 .vis-network canvas {top: 0; left: 0; position: absolute !important;}
+
+body {
+    overflow: hidden;
+}

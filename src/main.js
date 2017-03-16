@@ -1,9 +1,9 @@
-import 'font-awesome/scss/font-awesome.scss';
-import Vue from 'vue';
-import App from './App.vue';
-import {ClientTable, Event} from 'vue-tables-2';
-import BootstrapVue from 'bootstrap-vue';
-Vue.use(BootstrapVue);
+import "font-awesome/scss/font-awesome.scss";
+import Vue from "vue";
+import App from "./App.vue";
+import {ClientTable, Event} from "vue-tables-2";
+/*import BootstrapVue from 'bootstrap-vue';
+ Vue.use(BootstrapVue);*/
 
 //require('bootstrap-loader');
 
