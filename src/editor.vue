@@ -10,15 +10,31 @@
     >
         <div class="row">
             <div class="col">
-                <b-form-input v-model="findobj" placeholder="Фильтр:"
-                              @input="filterobj($event.target.value)"></b-form-input>
-                <b-list-group tag="div">
-                    <b-list-group-item tag="a" href="#" class="list-group-item-action">
-                        ИУС 1
-                    </b-list-group-item>
-                </b-list-group>
+                <div class="row my-2">
+                    <div class="col">
+                        <b-form-input v-model="findobj" placeholder="Фильтр:"
+                                      @input="filterobj($event.target.value)">
+                        </b-form-input>
+                    </div>
+                    <div class="col-3">
+                        <b-btn @click=""><i class="fa fa-plus" aria-hidden="true"></i></b-btn>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <b-list-group tag="div">
+                            <b-list-group-item tag="a" href="#" class="list-group-item-action" active>
+                                ИУС 1
+                            </b-list-group-item>
+                        </b-list-group>
+                    </div>
+                </div>
             </div>
             <div class="col-8">
+                <b-tabs>
+
+                    <b-tab></b-tab>
+                </b-tabs>
                 <b-card>
                     <div class="card-header">
                         <b-nav :tabs="true" type="a" class="card-header-tabs">
@@ -54,6 +70,8 @@
     import bNav from 'bootstrap-vue/components/nav.vue'
     import bCard from 'bootstrap-vue/components/card.vue'
     import bFormInput from 'bootstrap-vue/components/form-input.vue'
+    import bTab from 'bootstrap-vue/components/tab.vue'
+    import bTabs from 'bootstrap-vue/components/tabs.vue'
 
     export default {
         components: {bModal, bListGroup, bListGroupItem, 'b-btn': bButton, bNavItem, bNav, bCard, bFormInput},

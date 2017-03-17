@@ -45,7 +45,7 @@ export default {
   		}
   	},
     mounted() {
-        Event.$on('query', function (query) {
+        this.$root.$on('query', function (query) {
             console.log(query);
             //noinspection JSUnresolvedVariable,JSUnresolvedFunction
             this.$refs.table.setFilter(query);

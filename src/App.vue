@@ -62,7 +62,7 @@
         props: ['value'],
         methods: {
             sendQuery (value){
-                Event.$emit('query', value)
+                this.$root.$emit('query', value)
             }
         }
     };
