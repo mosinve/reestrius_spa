@@ -4,7 +4,7 @@ import App from "./App.vue";
 import {ClientTable, Event} from "vue-tables-2";
 /*import BootstrapVue from 'bootstrap-vue';
  Vue.use(BootstrapVue);*/
-
+Vue.use(vueresource);
 //require('bootstrap-loader');
 
 window.Event = Event;

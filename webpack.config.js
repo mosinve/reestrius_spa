@@ -1,5 +1,5 @@
-var path = require('path')
-var webpack = require('webpack')
+var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
   entry: './src/main.js',
@@ -60,7 +60,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
+        //'vue$': 'vue/dist/vue.esm.js',
       'jquery': 'jquery/src/jquery',
     }
   },
@@ -92,7 +92,8 @@ module.exports = {
     // Tab: "exports-loader?Tab!bootstrap/js/dist/tab",
     // Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
     // Util: "exports-loader?Util!bootstrap/js/dist/util",
-    Vue:"vue",
+      //Vue:"vue",
+      vueresource: "exports-loader?plugin!vue-resource/dist/vue-resource.es2015",
   })
 ]
 };

@@ -125,6 +125,7 @@
         {from:32, to: 4, weight: 10},
         {from:33, to: 0, weight: 10},
         {from:3, to: 33, weight: 10},
+        {from: 32, to: 26, weight: 10},
     ];
 	export default{
   		name: 'viewScheme',
@@ -192,8 +193,9 @@
   		            },
                     layout: {
   		                improvedLayout:true,
-						randomSeed: 851884
+//						randomSeed: 851884
 //                		randomSeed: 296570,
+//                        randomSeed: 670367
 //                        hierarchical: 	{
 //  		                    sortMethod: 'directed',
 //                        },
@@ -298,7 +300,7 @@
 			this.allNodes = this.datasetNodes.get({returnType:"Object"});
             this.network.on("select",this.methods.getDependSubtree);
             this.network.on("hold",this.methods.getAffectedSubtree);
-            Event.$on('query', function (query) {
+            this.$root.$on('query', function (query) {
                 if (query){
                     let filtered = this.datasetNodes.getIds({
                         filter: function(item) {

@@ -23,8 +23,9 @@
                 <div class="row">
                     <div class="col">
                         <b-list-group tag="div">
-                            <b-list-group-item tag="a" href="#" class="list-group-item-action" active>
-                                ИУС 1
+                            <b-list-group-item tag="a" href="#" class="list-group-item-action" active
+                                               v-for="object in objects" :key="object.id">
+                                {{object.name}}
                             </b-list-group-item>
                         </b-list-group>
                     </div>
@@ -32,23 +33,9 @@
             </div>
             <div class="col-8">
                 <b-tabs>
-
-                    <b-tab></b-tab>
+                    <b-tab :id="tab.id" title="tab.text" v-for="tab in tabs" :key="tab.id">
+                    </b-tab>
                 </b-tabs>
-                <b-card>
-                    <div class="card-header">
-                        <b-nav :tabs="true" type="a" class="card-header-tabs">
-                            <b-nav-item :active="true" href="#main">Главная</b-nav-item>
-                            <b-nav-item href="#props">Свойства</b-nav-item>
-                        </b-nav>
-                    </div>
-                    <div class="card-block">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-
-                </b-card>
 
                 <div id="main">
 
@@ -74,7 +61,18 @@
     import bTabs from 'bootstrap-vue/components/tabs.vue'
 
     export default {
-        components: {bModal, bListGroup, bListGroupItem, 'b-btn': bButton, bNavItem, bNav, bCard, bFormInput},
+        components: {
+            bModal,
+            bListGroup,
+            bListGroupItem,
+            'b-btn': bButton,
+            bNavItem,
+            bNav,
+            bCard,
+            bFormInput,
+            bTab,
+            bTabs
+        },
         data(){
             return {
                 findobj: ''
