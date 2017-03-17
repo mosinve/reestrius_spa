@@ -1,6 +1,13 @@
 <template>
-    <b-modal :ref="id" :id="id" :title="title" size="lg" closeTitle="Отмена" saveTitle="Сохранить"
-             :closeOnBackdrop="false">
+    <b-modal :ref="id"
+             :id="id"
+             :title="title"
+             size="lg"
+             closeTitle="Отмена"
+             saveTitle="Сохранить"
+             :closeOnBackdrop="false"
+             :fade="fade"
+    >
         <div class="row">
             <div class="col">
                 <b-form-input v-model="findobj" placeholder="Фильтр:"
@@ -64,6 +71,10 @@
                 type: String,
                 default: ''
             },
+            fade: {
+                type: Boolean,
+                default: true
+            }
         },
         methods: {
             filterobj (value){
