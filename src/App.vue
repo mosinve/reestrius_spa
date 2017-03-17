@@ -37,10 +37,7 @@
             </keep-alive>
         </transition>
         <editor id="dlgObjects" title="Объекты"/>
-        <b-modal ref="dlgProps" id="dlgProps" title="Объекты" size="lg" closeTitle="Закрыть" :closeOnBackdrop="false">
-
-        </b-modal>
-
+        <editor id="dlgProps" title="Свойства"/>
     </div>
 
 
