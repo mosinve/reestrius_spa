@@ -27,6 +27,13 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },
+      { // if you use vue.common.js, you can remove it
+        test: /\.esm.js$/,
+        loader: 'babel-loader',
+        include: [
+          path.resolve('node_modules', 'vue/dist')
+        ]
+      },
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
@@ -60,7 +67,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-        //'vue$': 'vue/dist/vue.esm.js',
+        'vue$': 'vue/dist/vue.esm.js',
       'jquery': 'jquery/src/jquery',
     }
   },
@@ -92,7 +99,7 @@ module.exports = {
     // Tab: "exports-loader?Tab!bootstrap/js/dist/tab",
     // Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
     // Util: "exports-loader?Util!bootstrap/js/dist/util",
-      //Vue:"vue",
+      Vue:"vue",
       vueresource: "exports-loader?plugin!vue-resource/dist/vue-resource.es2015",
   })
 ]

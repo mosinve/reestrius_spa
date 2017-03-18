@@ -21,8 +21,7 @@ resolve: {
 }
 plugins: [
   new webpack.ProvidePlugin({
-    Vue: vue,
-    'window.Vue': vue
+    Vue: vue
   })
 ]
 ````
@@ -35,14 +34,13 @@ export default Vue$3;
 ````
 Because this file use the es6 module grammar, so you must use `babel-loader` to convert it into a syntax that the browser can recognize.
 
-fix: modify `webpack.config.js -> line 25-29`:
+fix: use `babel-loader` to parse `vue.esm.js`:
 ````
 {
-  test: /\.js$/,
+  test: /\.esm.js$/,
   loader: 'babel-loader',
-  exclude: /node_modules/,
   include: [
-    path.resolve('node_modules', 'vue/dist/vue.esm.js')
+    path.resolve('node_modules', 'vue/dist')
   ]
 }
 ````
@@ -50,3 +48,8 @@ fix: modify `webpack.config.js -> line 25-29`:
 ## step 3
 
 If you use `vue.common.js`, even if you use `webpack.ProvidePlugin`, everything will be ok.
+
+## step 4
+
+Add `babel-plugin-add-module-exports` package and add this plugin to `.babelrc`. You can read more info at
+https://github.com/59naga/babel-plugin-add-module-exports for why use it.
