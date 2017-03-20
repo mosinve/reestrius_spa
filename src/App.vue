@@ -14,7 +14,6 @@
                         <a class="dropdown-item" href @click.stop.prevent="openModal('dlgProps')">Свойства</a>
                         <a class="dropdown-item" href
                            @click.stop.prevent="openModal('dlgObjects')">Пользователи</a>
-
                     </b-nav-item-dropdown>
                 </b-nav>
                 <form class="form-inline ">

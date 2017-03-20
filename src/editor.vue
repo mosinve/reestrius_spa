@@ -75,7 +75,8 @@
         },
         data(){
             return {
-                findobj: ''
+                findobj: '',
+                tabs: tabs
             }
         },
         props: {

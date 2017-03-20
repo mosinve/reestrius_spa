@@ -7,6 +7,14 @@ import BootstrapVue from "bootstrap-vue/dist/bootstrap-vue.esm";
 Vue.use(BootstrapVue);
 Vue.use(vueresource);
 //require('bootstrap-loader');
+window.tabs = [
+    {
+        id: 'inner', name: 'Основные'
+    },
+    {
+        id: 'custom', name: 'Свойства'
+    }
+    ];
 
 window.Event = Event;
 
