@@ -69,7 +69,7 @@ module.exports = {
     resolve: {
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
-            'jquery': 'jquery/src/jquery',
+            //'jquery': 'jquery/src/jquery',
         }
     },
     devServer: {
@@ -83,10 +83,10 @@ module.exports = {
     plugins: [
         new webpack.NamedModulesPlugin(),
         new webpack.ProvidePlugin({
-            $: "jquery",
-            jquery: "jquery",
-            jQuery: "jquery",
-            "window.jQuery": "jquery",
+            // $: "jquery",
+            // jquery: "jquery",
+            // jQuery: "jquery",
+            // "window.jQuery": "jquery",
             Tether: "tether",
             "window.Tether": "tether",
             // Alert: "exports-loader?Alert!bootstrap/js/dist/alert",
@@ -101,6 +101,7 @@ module.exports = {
             // Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
             // Util: "exports-loader?Util!bootstrap/js/dist/util",
             Vue: "vue",
+            'window.Vue': 'vue',
             vueresource: "exports-loader?plugin!vue-resource/dist/vue-resource.es2015",
         })
     ]
