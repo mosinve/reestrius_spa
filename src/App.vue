@@ -8,12 +8,11 @@
             <b-collapse isNav id="nav_collapse">
                 <b-nav isNavBar class="mr-auto">
                     <b-nav-item class="active" href="/">Главная</b-nav-item>
-                    <b-nav-item-dropdown text="" size="sm">
-                        Справочники
-                        <a slot="dropdown-menu" class="dropdown-item" href
+                    <b-nav-item-dropdown text="Справочники" size="sm">
+                        <a class="dropdown-item" href
                            @click.stop.prevent="openModal('dlgObjects')">Объекты</a>
-                        <a slot="dropdown-menu" class="dropdown-item" href @click.stop.prevent="openModal('dlgProps')">Свойства</a>
-                        <a slot="dropdown-menu" class="dropdown-item" href
+                        <a class="dropdown-item" href @click.stop.prevent="openModal('dlgProps')">Свойства</a>
+                        <a class="dropdown-item" href
                            @click.stop.prevent="openModal('dlgObjects')">Пользователи</a>
 
                     </b-nav-item-dropdown>
@@ -47,14 +46,14 @@
     import viewScheme from './viewScheme.vue';
     import viewTable from './viewTable.vue';
     import editor from './editor.vue';
-    import bCollapse from 'bootstrap-vue/components/collapse.vue';
-    import bModal from 'bootstrap-vue/components/modal.vue'
-    import bNavItem from 'bootstrap-vue/components/nav-item.vue';
-    import bNavItemDropdown from 'bootstrap-vue/components/nav-item-dropdown.vue';
-    import bNavToggle from 'bootstrap-vue/components/nav-toggle.vue';
-    import bNavbar from 'bootstrap-vue/components/navbar.vue';
-    import bNav from 'bootstrap-vue/components/nav.vue';
-    import bButton from 'bootstrap-vue/components/button.vue';
+    import bCollapse from 'bootstrap-vue/lib/components/collapse.vue';
+    import bModal from 'bootstrap-vue/lib/components/modal.vue'
+    import bNavItem from 'bootstrap-vue/lib/components/nav-item.vue';
+    import bNavItemDropdown from 'bootstrap-vue/lib/components/nav-item-dropdown.vue';
+    import bNavToggle from 'bootstrap-vue/lib/components/nav-toggle.vue';
+    import bNavbar from 'bootstrap-vue/lib/components/navbar.vue';
+    import bNav from 'bootstrap-vue/lib/components/nav.vue';
+    import bButton from 'bootstrap-vue/lib/components/button.vue';
 
     //import BootstrapVue from 'bootstrap-vue';
     const filter = {

@@ -49,16 +49,16 @@
 </template>
 
 <script>
-    import bModal from 'bootstrap-vue/components/modal.vue'
-    import bListGroup from 'bootstrap-vue/components/list-group.vue'
-    import bListGroupItem from 'bootstrap-vue/components/list-group-item.vue'
-    import bButton from 'bootstrap-vue/components/button.vue'
-    import bNavItem from 'bootstrap-vue/components/nav-item.vue'
-    import bNav from 'bootstrap-vue/components/nav.vue'
-    import bCard from 'bootstrap-vue/components/card.vue'
-    import bFormInput from 'bootstrap-vue/components/form-input.vue'
-    import bTab from 'bootstrap-vue/components/tab.vue'
-    import bTabs from 'bootstrap-vue/components/tabs.vue'
+    import bModal from 'bootstrap-vue/lib/components/modal.vue'
+    import bListGroup from 'bootstrap-vue/lib/components/list-group.vue'
+    import bListGroupItem from 'bootstrap-vue/lib/components/list-group-item.vue'
+    import bButton from 'bootstrap-vue/lib/components/button.vue'
+    import bNavItem from 'bootstrap-vue/lib/components/nav-item.vue'
+    import bNav from 'bootstrap-vue/lib/components/nav.vue'
+    import bCard from 'bootstrap-vue/lib/components/card.vue'
+    import bFormInput from 'bootstrap-vue/lib/components/form-input.vue'
+    import bTab from 'bootstrap-vue/lib/components/tab.vue'
+    import bTabs from 'bootstrap-vue/lib/components/tabs.vue'
 
     export default {
         components: {
