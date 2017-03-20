@@ -34,8 +34,8 @@
                 <component v-bind:is="currentView" ref="test"></component>
             </keep-alive>
         </transition>
-        <editor id="dlgObjects" title="Объекты"/>
-        <editor id="dlgProps" title="Свойства"/>
+        <editor id="dlgObjects" title="Объекты" />
+        <editor id="dlgProps" title="Свойства" />
     </div>
 
 

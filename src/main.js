@@ -7,14 +7,20 @@ import BootstrapVue from "bootstrap-vue/dist/bootstrap-vue.esm";
 Vue.use(BootstrapVue);
 Vue.use(vueresource);
 //require('bootstrap-loader');
-window.tabs = [
-    {
-        id: 'inner', name: 'Основные'
-    },
-    {
-        id: 'custom', name: 'Свойства'
-    }
-    ];
+window.Appsettings = {
+    tabs : [
+        {
+            id: 'inner',
+            text: 'Основные',
+            dialogs: ['dlgObjects', 'dlgProps']
+        },
+        {
+            id: 'custom',
+            text: 'Свойства',
+            dialogs: ['dlgObjects']
+        }
+    ],
+};
 
 window.Event = Event;
 

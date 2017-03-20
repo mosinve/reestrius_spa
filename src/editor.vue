@@ -33,7 +33,8 @@
             </div>
             <div class="col-8">
                 <b-tabs>
-                    <b-tab :id="tab.id" title="tab.text" v-for="tab in tabs" :key="tab.id">
+                    <b-tab :id="tab.id" :title="tab.text" v-for="tab in tabs" :key="tab.id" v-if="tab.dialogs.includes(id)">
+                        <b-form-input v-model="text"></b-form-input>
                     </b-tab>
                 </b-tabs>
 
@@ -76,7 +77,7 @@
         data(){
             return {
                 findobj: '',
-                tabs: tabs
+                tabs: Appsettings.tabs
             }
         },
         props: {
@@ -91,6 +92,10 @@
             fade: {
                 type: Boolean,
                 default: true
+            },
+            editSingle: {
+                type: Boolean,
+                default: false
             }
         },
         methods: {
