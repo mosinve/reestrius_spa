@@ -12,8 +12,7 @@
             <div class="col">
                 <div class="row my-2">
                     <div class="col">
-                        <b-form-input v-model="findobj" placeholder="Фильтр:"
-                                      @input="filterobj($event.target.value)">
+                        <b-form-input v-model="filter" typeplaceholder="Фильтр:">
                         </b-form-input>
                     </div>
                     <div class="col-3">
@@ -34,7 +33,10 @@
             <div class="col-8">
                 <b-tabs>
                     <b-tab :id="tab.id" :title="tab.text" v-for="tab in tabs" :key="tab.id" v-if="tab.dialogs.includes(id)">
-                        <b-form-input v-model="text"></b-form-input>
+                        <b-form-fieldset horizontal :label="key" class="col" :label-size="2" v-for="key in propkeys"
+                                         :key="key">
+                            <b-form-input v-model="props[key]"></b-form-input>
+                        </b-form-fieldset>
                     </b-tab>
                 </b-tabs>
 
@@ -60,6 +62,7 @@
     import bFormInput from 'bootstrap-vue/lib/components/form-input.vue'
     import bTab from 'bootstrap-vue/lib/components/tab.vue'
     import bTabs from 'bootstrap-vue/lib/components/tabs.vue'
+    import bFormFieldset from 'bootstrap-vue/lib/components/form-fieldset.vue'
 
     export default {
         components: {
@@ -72,12 +75,14 @@
             bCard,
             bFormInput,
             bTab,
-            bTabs
+            bTabs,
+            bFormFieldset
         },
         data(){
             return {
-                findobj: '',
-                tabs: Appsettings.tabs
+                filter: '',
+                tabs: appSettings.tabs,
+                props: appSettings.properties
             }
         },
         props: {
@@ -99,8 +104,18 @@
             }
         },
         methods: {
-            filterobj (value){
-                console.log(value)
+            addItem: function () {
+
+            }
+        },
+        watch: {
+            filter: function (value) {
+                console.info(value)
+            }
+        },
+        computed: {
+            propkeys: function () {
+                return Object.keys(appSettings.properties[0])
             }
         }
     }

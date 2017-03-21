@@ -56,10 +56,14 @@
 
     //import BootstrapVue from 'bootstrap-vue';
     const filter = {
-        template: `<input ref="filter" class="form-control mr-sm-2" type="text" placeholder="Поиск" autofocus="true" id="filter" v-bind:value="value" @input="sendQuery($event.target.value)">`,
-        props: ['value'],
+        template: `<input ref="filter" class="form-control mr-sm-2" type="text" placeholder="Поиск" autofocus="true" id="filter" @input="sendQuery($event.target.value)" v-model="value">`,
+        data(){
+            return {
+                value: ''
+            }
+        },
         methods: {
-            sendQuery (value){
+            sendQuery: function (value) {
                 this.$root.$emit('query', value)
             }
         }
