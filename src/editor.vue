@@ -52,37 +52,37 @@
 </template>
 
 <script>
-    import bModal from 'bootstrap-vue/lib/components/modal.vue'
-    import bListGroup from 'bootstrap-vue/lib/components/list-group.vue'
-    import bListGroupItem from 'bootstrap-vue/lib/components/list-group-item.vue'
-    import bButton from 'bootstrap-vue/lib/components/button.vue'
-    import bNavItem from 'bootstrap-vue/lib/components/nav-item.vue'
-    import bNav from 'bootstrap-vue/lib/components/nav.vue'
-    import bCard from 'bootstrap-vue/lib/components/card.vue'
-    import bFormInput from 'bootstrap-vue/lib/components/form-input.vue'
-    import bTab from 'bootstrap-vue/lib/components/tab.vue'
-    import bTabs from 'bootstrap-vue/lib/components/tabs.vue'
-    import bFormFieldset from 'bootstrap-vue/lib/components/form-fieldset.vue'
+//    import bModal from 'bootstrap-vue/lib/components/modal.vue'
+//    import bListGroup from 'bootstrap-vue/lib/components/list-group.vue'
+//    import bListGroupItem from 'bootstrap-vue/lib/components/list-group-item.vue'
+//    import bButton from 'bootstrap-vue/lib/components/button.vue'
+//    import bNavItem from 'bootstrap-vue/lib/components/nav-item.vue'
+//    import bNav from 'bootstrap-vue/lib/components/nav.vue'
+//    import bCard from 'bootstrap-vue/lib/components/card.vue'
+//    import bFormInput from 'bootstrap-vue/lib/components/form-input.vue'
+//    import bTab from 'bootstrap-vue/lib/components/tab.vue'
+//    import bTabs from 'bootstrap-vue/lib/components/tabs.vue'
+//    import bFormFieldset from 'bootstrap-vue/lib/components/form-fieldset.vue'
 
     export default {
-        components: {
-            bModal,
-            bListGroup,
-            bListGroupItem,
-            'b-btn': bButton,
-            bNavItem,
-            bNav,
-            bCard,
-            bFormInput,
-            bTab,
-            bTabs,
-            bFormFieldset
-        },
+//        components: {
+//            bModal,
+//            bListGroup,
+//            bListGroupItem,
+//            'b-btn': bButton,
+//            bNavItem,
+//            bNav,
+//            bCard,
+//            bFormInput,
+//            bTab,
+//            bTabs,
+//            bFormFieldset
+//        },
         data(){
             return {
                 filter: '',
-                tabs: appSettings.tabs,
-                props: appSettings.properties
+                tabs: this.$root.appData.appSettings.tabs,
+                props: this.$root.appData.appSettings.properties
             }
         },
         props: {
@@ -115,7 +115,7 @@
         },
         computed: {
             propkeys: function () {
-                return Object.keys(appSettings.properties[0])
+                return Object.keys(this.$root.appData.appSettings.properties[0])
             }
         }
     }

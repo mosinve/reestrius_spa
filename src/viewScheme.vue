@@ -204,8 +204,8 @@
             }
   		},
         mounted() {
-            this.datasetNodes = new vis.DataSet(Nodes);
-            this.datasetEdges = new vis.DataSet(Edges);
+            this.datasetNodes = new vis.DataSet(this.$root.appData.Nodes);
+            this.datasetEdges = new vis.DataSet(this.$root.appData.Edges);
             this.container = document.getElementById('canvas');
             let data = {
                 nodes: this.datasetNodes,

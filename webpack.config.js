@@ -30,7 +30,8 @@ module.exports = {
                 test: /\.esm.js$/,
                 loader: 'babel-loader',
                 include: [
-                    path.resolve('node_modules', 'vue/dist')
+                    path.resolve('node_modules', 'vue/dist'),
+                    path.resolve('node_modules', 'bootstrap-vue/dist'),
                 ]
             },
             {
@@ -46,6 +47,7 @@ module.exports = {
                 }
             },
             {test: /\.scss?$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
+            {test: /\.css?$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
             {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?mimetype=image/svg+xml'},
             {test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/font-woff"},
             {test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "file-loader?mimetype=application/font-woff"},
@@ -68,8 +70,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            'vue$': 'vue/dist/vue.esm.js',
-            //'jquery': 'jquery/src/jquery',
+            'vue$': 'vue/dist/vue.esm.js'
         }
     },
     devServer: {
@@ -83,26 +84,12 @@ module.exports = {
     plugins: [
         new webpack.NamedModulesPlugin(),
         new webpack.ProvidePlugin({
-            // $: "jquery",
-            // jquery: "jquery",
-            // jQuery: "jquery",
-            // "window.jQuery": "jquery",
             Tether: "tether",
             "window.Tether": "tether",
-            // Alert: "exports-loader?Alert!bootstrap/js/dist/alert",
-            // Button: "exports-loader?Button!bootstrap/js/dist/button",
-            // Carousel: "exports-loader?Carousel!bootstrap/js/dist/carousel",
-            // Collapse: "exports-loader?Collapse!bootstrap/js/dist/collapse",
-            // Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown",
-            // //Modal: "exports-loader?Modal!bootstrap/js/dist/modal",
-            // Popover: "exports-loader?Popover!bootstrap/js/dist/popover",
-            // Scrollspy: "exports-loader?Scrollspy!bootstrap/js/dist/scrollspy",
-            // Tab: "exports-loader?Tab!bootstrap/js/dist/tab",
-            // Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
-            // Util: "exports-loader?Util!bootstrap/js/dist/util",
             Vue: "vue",
             'window.Vue': 'vue',
-            vueresource: "exports-loader?plugin!vue-resource/dist/vue-resource.es2015",
+            VueResource: "exports-loader?plugin!vue-resource/dist/vue-resource.es2015",
+            BootstrapVue: "exports-loader?VuePlugin!bootstrap-vue/dist/bootstrap-vue.esm",
         })
     ]
 };

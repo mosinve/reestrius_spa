@@ -12,12 +12,12 @@ export default {
 	name: 'viewTable',
   	data() {
   		return {
-            columns: appSettings.tablecolumns,
-    		tableData: 	tableData,
+            columns: this.$root.appData.appSettings.tablecolumns,
+    		tableData: 	this.$root.appData.tableData,
       		options: {
       			group:true,
       			sortable:'',
-                orderBy: {column: appSettings.groupby, ascending: true},
+                orderBy: {column: this.$root.appData.appSettings.groupby, ascending: true},
       			perPage:10,
       			perPageValues:[10, 20, 50],
 			}

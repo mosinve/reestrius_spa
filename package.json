@@ -9,11 +9,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.6",
-    "bootstrap-loader": "*",
     "bootstrap-vue": "^0.10.0-alpha.1",
     "font-awesome": "^4.7.0",
-    "jquery": "^3.1.1",
     "vis": "^4.18.1",
     "vue": "^2.1.0",
     "vue-tables-2": "^0.4.33"

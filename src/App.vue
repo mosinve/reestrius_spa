@@ -1,6 +1,6 @@
 <template>
     <div id="app" class="bg-faded d-flex flex-column">
-        <b-navbar toggleable type="inverse" variant="inverse" fixed="top">
+        <b-navbar toggleable type="inverse" variant="inverse" stickyn="top">
             <b-nav-toggle target="nav_collapse"/>
             <a class="navbar-brand" href="/">
                 РеестрИУС
@@ -45,14 +45,14 @@
     import viewScheme from './viewScheme.vue';
     import viewTable from './viewTable.vue';
     import editor from './editor.vue';
-    import bCollapse from 'bootstrap-vue/lib/components/collapse.vue';
-    import bModal from 'bootstrap-vue/lib/components/modal.vue'
-    import bNavItem from 'bootstrap-vue/lib/components/nav-item.vue';
-    import bNavItemDropdown from 'bootstrap-vue/lib/components/nav-item-dropdown.vue';
-    import bNavToggle from 'bootstrap-vue/lib/components/nav-toggle.vue';
-    import bNavbar from 'bootstrap-vue/lib/components/navbar.vue';
-    import bNav from 'bootstrap-vue/lib/components/nav.vue';
-    import bButton from 'bootstrap-vue/lib/components/button.vue';
+//    import bCollapse from 'bootstrap-vue/lib/components/collapse.vue';
+//    import bModal from 'bootstrap-vue/lib/components/modal.vue'
+//    import bNavItem from 'bootstrap-vue/lib/components/nav-item.vue';
+//    import bNavItemDropdown from 'bootstrap-vue/lib/components/nav-item-dropdown.vue';
+//    import bNavToggle from 'bootstrap-vue/lib/components/nav-toggle.vue';
+//    import bNavbar from 'bootstrap-vue/lib/components/navbar.vue';
+//    import bNav from 'bootstrap-vue/lib/components/nav.vue';
+//    import bButton from 'bootstrap-vue/lib/components/button.vue';
 
     //import BootstrapVue from 'bootstrap-vue';
     const filter = {
@@ -75,14 +75,14 @@
             viewScheme,
             viewTable,
             'my-filter': filter,
-            bModal,
-            bNavItem,
-            bNavItemDropdown,
-            bNavToggle,
-            bNavbar,
-            bCollapse,
-            bNav,
-            'b-btn': bButton,
+//            bModal,
+//            bNavItem,
+//            bNavItemDropdown,
+//            bNavToggle,
+//            bNavbar,
+//            bCollapse,
+//            bNav,
+//            'b-btn': bButton,
             editor
         },
         data () {
