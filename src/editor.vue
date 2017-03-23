@@ -5,7 +5,7 @@
              size="lg"
              closeTitle="Отмена"
              saveTitle="Сохранить"
-             :closeOnBackdrop="false"
+             :closeOnBackdrop="true"
              :fade="fade"
     >
         <div class="row">
