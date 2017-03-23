@@ -1,6 +1,6 @@
 <template>
     <div id="app" class="bg-faded d-flex flex-column">
-        <b-navbar toggleable type="inverse" variant="inverse" stickyn="top">
+        <b-navbar toggleable type="inverse" variant="inverse" sticky="top">
             <b-nav-toggle target="nav_collapse"/>
             <a class="navbar-brand" href="/">
                 РеестрИУС
@@ -9,11 +9,9 @@
                 <b-nav isNavBar class="mr-auto">
                     <b-nav-item class="active" href="/">Главная</b-nav-item>
                     <b-nav-item-dropdown text="Справочники" size="sm">
-                        <a class="dropdown-item" href
-                           @click.stop.prevent="openModal('dlgObjects')">Объекты</a>
-                        <a class="dropdown-item" href @click.stop.prevent="openModal('dlgProps')">Свойства</a>
-                        <a class="dropdown-item" href
-                           @click.stop.prevent="openModal('dlgObjects')">Пользователи</a>
+                        <b-dropdown-item href="#" @click.native.stop="openModal('dlgObjects')">Объекты</b-dropdown-item>
+                        <b-dropdown-item href="#" @click.native.stop="openModal('dlgProps')">Свойства</b-dropdown-item>
+                        <b-dropdown-item href="#">Пользователи</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-nav>
                 <form class="form-inline ">
@@ -54,7 +52,6 @@
 //    import bNav from 'bootstrap-vue/lib/components/nav.vue';
 //    import bButton from 'bootstrap-vue/lib/components/button.vue';
 
-    //import BootstrapVue from 'bootstrap-vue';
     const filter = {
         template: `<input ref="filter" class="form-control mr-sm-2" type="text" placeholder="Поиск" autofocus="true" id="filter" @input="sendQuery($event.target.value)" v-model="value">`,
         data(){
