@@ -16,14 +16,14 @@
                         </b-form-input>
                     </div>
                     <div class="col-3">
-                        <b-btn @click=""><i class="fa fa-plus" aria-hidden="true"></i></b-btn>
+                        <b-btn @click="addItem(type)"><i class="fa fa-plus" aria-hidden="true"></i></b-btn>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <b-list-group tag="div">
-                            <b-list-group-item tag="a" href="#" class="list-group-item-action" active
-                                               v-for="object in objects" :key="object.id">
+                            <b-list-group-item @click="select" :ref="type" tag="a" href="#" action
+                                               v-for="object in data" :key="object.id">
                                 {{object.name}}
                             </b-list-group-item>
                         </b-list-group>
@@ -101,11 +101,31 @@
             editSingle: {
                 type: Boolean,
                 default: false
+            },
+            type: {
+                type: String,
+                default: null
+            },
+            data: {
+                type: Array,
+                default: () => []
             }
         },
         methods: {
-            addItem: function () {
-
+            addItem: function (type) {
+                let newobj = this.$root.Data(type);
+                newobj.id = this.data.length+1;
+                this.data.push(newobj);
+                this.$nextTick( function () {
+                    this.$refs[type].forEach(function (e, i, a) {
+                        e.active = false;
+                    });
+                    this.$refs[type][newobj.id-1].active=true;
+                    }
+                );
+            },
+            select: function (e) {
+                console.log(e);
             }
         },
         watch: {
@@ -115,7 +135,7 @@
         },
         computed: {
             propkeys: function () {
-                return Object.keys(this.$root.appData.appSettings.properties[0])
+                return this.data && this.data.properties ? Object.keys(this.data.properties): null
             }
         }
     }

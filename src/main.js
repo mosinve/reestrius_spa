@@ -10,7 +10,7 @@ Vue.use(BootstrapVue);
 Vue.use(VueResource);
 
 let STORAGE_KEY = 'reestrius_app';
-//require('bootstrap-loader');
+
 let reestriusStorage = {
     fetch: function () {
         let settings = JSON.parse(localStorage(STORAGE_KEY) || '[]');
@@ -24,6 +24,33 @@ let reestriusStorage = {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(settings))
     }
 };
+
+let DataProperty = function (data) {
+    this.name = data.name;
+    this.value = data.value;
+    this.id = data.id;
+};
+
+let DataObject = function (data) {
+    this.name = data.name;
+    this.id = data.id;
+    this.links = {};
+    this.properties = {}
+};
+
+
+function Data(type, data = {}) {
+    switch (type) {
+        case 'object':
+            return new DataObject(data);
+            break;
+        case 'property':
+            return new DataProperty(data);
+            break;
+        case 'user':
+            break;
+    }
+}
 
 let appData = [];
     appData.tableData = [
@@ -170,5 +197,8 @@ let reestrius = new Vue({
     render: h => h(App),
     data: {
         appData  : appData
+    },
+    methods:{
+        Data: Data
     }
 });

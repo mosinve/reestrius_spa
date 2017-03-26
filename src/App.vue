@@ -9,8 +9,8 @@
                 <b-nav isNavBar class="mr-auto">
                     <b-nav-item class="active" href="/">Главная</b-nav-item>
                     <b-nav-item-dropdown text="Справочники" size="sm">
-                        <b-dropdown-item href="#" @click.native.stop="openModal('dlgObjects')">Объекты</b-dropdown-item>
-                        <b-dropdown-item href="#" @click.native.stop="openModal('dlgProps')">Свойства</b-dropdown-item>
+                        <b-dropdown-item @click.native.stop="openModal('dlgObjects')">Объекты</b-dropdown-item>
+                        <b-dropdown-item @click.native.stop="openModal('dlgProps')">Свойства</b-dropdown-item>
                         <b-dropdown-item href="#">Пользователи</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-nav>
@@ -32,8 +32,8 @@
                 <component v-bind:is="currentView" ref="test"></component>
             </keep-alive>
         </transition>
-        <editor id="dlgObjects" title="Объекты" />
-        <editor id="dlgProps" title="Свойства" />
+        <editor id="dlgObjects" title="Объекты" type="object"/>
+        <editor id="dlgProps" title="Свойства" type="property"/>
     </div>
 
 
