@@ -59,7 +59,7 @@
             return {
                 filter: '',
                 tabs: this.$root.appData.appSettings.editorTabs,
-                selectedItem: {}
+                selectedItem: null
             }
         },
         props: {
@@ -86,6 +86,10 @@
             data: {
                 type: Array,
                 default: () => []
+            },
+            value: {
+                type: Number,
+                default: 0
             }
         },
         methods: {
@@ -94,15 +98,26 @@
                 newobj.id = this.data.length+1;
                 this.data.push(newobj);
                 this.$nextTick( function () {
-                    this.$refs[type].forEach(function (e, i, a) {
-                        e.active = false;
-                    });
-                    this.$refs[type][newobj.id-1].active=true;
+                    this.setActive(newobj.id-1)
                     }
                 );
             },
-            select() {
-                console.log(this);
+            setActive(index) {
+                const activeItem = this.getActive();
+                if (activeItem !== -1) {
+                    this.$refs[this.type][activeItem].active = false
+                }
+                this.$refs[this.type][index].active = true;
+                this.selectedItem = index
+            },
+            getActive(){
+                let active = -1;
+                this.$refs[this.type].forEach((item, index) => {
+                    if (item.active) {
+                        active = index;
+                    }
+                });
+                return active;
             },
             modalOK(){
                 console.log('modalOk');
@@ -112,13 +127,13 @@
             }
         },
         watch: {
-            filter: function (value) {
+            filter(value) {
                 console.info(value)
-            }
+            },
         },
-        computed: {
-            propkeys: function () {
-                return this.selectedItem ? Object.keys(this.selectedItem) : []
+        computed:{
+            propkeys(){
+                return this.selectedItem ? Object.keys(this.data[this.selectedItem]): []
             }
         }
     }

@@ -24,8 +24,8 @@
                 <div class="row">
                     <div class="col">
                         <b-list-group tag="div">
-                            <b-list-group-item @click="select" :ref="type" tag="button" action
-                                               v-for="object in data" :key="object.id">
+                            <b-list-group-item @click="setActive(index)" :ref="type" tag="button" action
+                                               v-for="(object, index) in data" :key="object.id">
                                 {{object.name}}
                             </b-list-group-item>
                         </b-list-group>
@@ -35,9 +35,9 @@
             <div class="col-8">
                 <b-tabs>
                     <b-tab :id="tab.id" :title="tab.text" v-for="tab in tabs" :key="tab.id" v-if="tab.dialogs.includes(id)">
-                        <b-form-fieldset horizontal :label="key" class="col" :label-size="2" v-for="key in propkeys"
+                        <b-form-fieldset v-if="selectedItem" horizontal :label="key" class="col" :label-size="2" v-for="key in propkeys"
                                          :key="key">
-                            <b-form-input v-model="props[key]"></b-form-input>
+                            <b-form-input v-model="this.data[key]"></b-form-input>
                         </b-form-fieldset>
                     </b-tab>
                 </b-tabs>
