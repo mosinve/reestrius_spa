@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col">
                         <b-list-group tag="div">
-                            <b-list-group-item @click="select" :ref="type" tag="button"
+                            <b-list-group-item @click="select" :ref="type" tag="button" action
                                                v-for="object in data" :key="object.id">
                                 {{object.name}}
                             </b-list-group-item>
@@ -54,73 +54,9 @@
 </template>
 
 <script>
+    import editor from './editor.vue';
     export default {
-        data(){
-            return {
-                filter: '',
-                tabs: this.$root.appData.appSettings.editorTabs,
-                selectedItem: {}
-            }
-        },
-        props: {
-            id: {
-                type: String,
-                default: null
-            },
-            title: {
-                type: String,
-                default: ''
-            },
-            fade: {
-                type: Boolean,
-                default: true
-            },
-            editSingle: {
-                type: Boolean,
-                default: false
-            },
-            type: {
-                type: String,
-                default: null
-            },
-            data: {
-                type: Array,
-                default: () => []
-            }
-        },
-        methods: {
-            addItem(type) {
-                let newobj = this.$root.Data(type);
-                newobj.id = this.data.length+1;
-                this.data.push(newobj);
-                this.$nextTick( function () {
-                    this.$refs[type].forEach(function (e, i, a) {
-                        e.active = false;
-                    });
-                    this.$refs[type][newobj.id-1].active=true;
-                    }
-                );
-            },
-            select() {
-                console.log(this);
-            },
-            modalOK(){
-                console.log('modalOk');
-            },
-            modalCancel(){
-                console.log(this)
-            }
-        },
-        watch: {
-            filter: function (value) {
-                console.info(value)
-            }
-        },
-        computed: {
-            propkeys: function () {
-                return this.selectedItem ? Object.keys(this.selectedItem) : []
-            }
-        }
+        extends: editor
     }
 </script>
 
