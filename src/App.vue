@@ -9,8 +9,8 @@
                 <b-nav isNavBar class="mr-auto">
                     <b-nav-item class="active" href="/">Главная</b-nav-item>
                     <b-nav-item-dropdown text="Справочники" size="sm">
-                        <b-dropdown-item @click.native.stop="openEditor('dlgObjects')">Объекты</b-dropdown-item>
-                        <b-dropdown-item @click.native.stop="openEditor('dlgProps')">Свойства</b-dropdown-item>
+                        <b-dropdown-item href="#" @click.stop.prevent="openEditor('objects')">Объекты</b-dropdown-item>
+                        <b-dropdown-item href="#" v-b-modal.editor @click="openEditor('properties')">Свойства</b-dropdown-item>
                         <b-dropdown-item href="#">Пользователи</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-nav>
@@ -32,8 +32,10 @@
                 <component v-bind:is="currentView" ref="test"></component>
             </keep-alive>
         </transition>
-        <objEditor id="dlgObjects" title="Объекты" type="object" :data="dlgData"/>
-        <propEditor id="dlgProps" title="Свойства" type="property" :data="dlgData"/>
+        <!--<objEditor id="dlgObjects" title="Объекты" type="object" :data="dlgData"/>-->
+        <!--<propEditor id="dlgProps" title="Свойства" type="property" :data="dlgData"/>-->
+        <editor ref="editor" :data="editorData" :title="editorData.title"></editor>
+
     </div>
 
 
@@ -42,9 +44,10 @@
 <script>
     import viewScheme from './viewScheme.vue';
     import viewTable from './viewTable.vue';
-    import objEditor from './objeditor.vue';
-    import propEditor from './propeditor.vue';
-    import userEditor from './usereditor.vue';
+//    import objEditor from './objeditor.vue';
+//    import propEditor from './propeditor.vue';
+//    import userEditor from './usereditor.vue';
+    import editor from './editor.vue'
 
     const filter = {
         template: `<input ref="filter" class="form-control mr-sm-2" type="text" placeholder="Поиск" autofocus="true" id="filter" @input="sendQuery($event.target.value)" v-model="value">`,
@@ -66,14 +69,15 @@
             viewScheme,
             viewTable,
             'my-filter': filter,
-            objEditor,
-            propEditor,
-            userEditor
+//            objEditor,
+//            propEditor,
+//            userEditor,
+            editor,
         },
         data () {
             return {
                 currentView: 'viewScheme',
-
+                editorData: {}
             }
         },
         computed: {
@@ -83,8 +87,13 @@
         },
         methods: {
             openEditor(target) {
-                this.$root.$emit('shown::dropdown', target);
-                this.$root.$emit('show::modal', target);
+                this.editorData = this.$root.appData.appSettings.editors[target];
+                this.editorData.type = target;
+                this.$forceUpdate();
+                this.$nextTick(function () {
+                    this.$root.$emit('show::modal', 'editor');
+                })
+
             }
         }
     }

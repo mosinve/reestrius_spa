@@ -33,15 +33,17 @@
                 </div>
             </div>
             <div class="col-8">
-                <b-tabs>
+                <b-card no-block>
+                <b-tabs card small>
                     <b-tab :id="tab.id" :title="tab.text" v-for="tab in tabs" :key="tab.id" v-if="tab.dialogs.includes(id)">
+                        {{tab.text}}
                         <b-form-fieldset horizontal :label="key" class="col" :label-size="2" v-for="key in propkeys"
                                          :key="key">
                             <b-form-input v-model="props[key]"></b-form-input>
                         </b-form-fieldset>
                     </b-tab>
                 </b-tabs>
-
+                </b-card>
                 <div id="main">
 
                 </div>

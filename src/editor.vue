@@ -1,6 +1,5 @@
 <template>
-    <b-modal :ref="id"
-             :id="id"
+    <b-modal id="editor"
              :title="title"
              size="lg"
              closeTitle="Отмена"
@@ -24,8 +23,8 @@
                 <div class="row">
                     <div class="col">
                         <b-list-group tag="div">
-                            <b-list-group-item @click="select" :ref="type" tag="button"
-                                               v-for="object in data" :key="object.id">
+                            <b-list-group-item @click="setActive(index)" :ref="type" tag="button" action
+                                               v-for="(object, index) in data" :key="object.id">
                                 {{object.name}}
                             </b-list-group-item>
                         </b-list-group>
@@ -33,15 +32,17 @@
                 </div>
             </div>
             <div class="col-8">
-                <b-tabs>
-                    <b-tab :id="tab.id" :title="tab.text" v-for="tab in tabs" :key="tab.id" v-if="tab.dialogs.includes(id)">
+                <b-card no-block>
+                    <b-tabs card small>
+                    <b-tab :id="tab.id" :title="tab.text" v-for="tab in tabs" :key="tab.id" v-if="tab.dialogs.includes(type)">
+                        {{tab.text}}
                         <b-form-fieldset horizontal :label="key" class="col" :label-size="2" v-for="key in propkeys"
                                          :key="key">
                             <b-form-input v-model="props[key]"></b-form-input>
                         </b-form-fieldset>
                     </b-tab>
                 </b-tabs>
-
+                </b-card>
                 <div id="main">
 
                 </div>
@@ -58,19 +59,10 @@
         data(){
             return {
                 filter: '',
-                tabs: this.$root.appData.appSettings.editorTabs,
-                selectedItem: null
+                selectedItem: null,
             }
         },
         props: {
-            id: {
-                type: String,
-                default: null
-            },
-            title: {
-                type: String,
-                default: ''
-            },
             fade: {
                 type: Boolean,
                 default: true
@@ -79,17 +71,17 @@
                 type: Boolean,
                 default: false
             },
-            type: {
-                type: String,
-                default: null
-            },
             data: {
-                type: Array,
-                default: () => []
+                type: Object,
+                default: () => {}
             },
             value: {
                 type: Number,
                 default: 0
+            },
+            title: {
+                type: String,
+                default: null
             }
         },
         methods: {
@@ -105,7 +97,7 @@
             setActive(index) {
                 const activeItem = this.getActive();
                 if (activeItem !== -1) {
-                    this.$refs[this.type][activeItem].active = false
+                    this.$set(this.$refs[this.type][activeItem],'active',false);
                 }
                 this.$refs[this.type][index].active = true;
                 this.selectedItem = index
@@ -131,10 +123,19 @@
                 console.info(value)
             },
         },
-        computed:{
-            propkeys(){
-                return this.selectedItem ? Object.keys(this.data[this.selectedItem]): []
-            }
+        computed: {
+            propkeys() {
+                return this.selectedItem ? Object.keys(this.data[this.selectedItem]) : []
+            },
+            type() {
+                return this.data ? this.data.type: null;
+            },
+            tabs() {
+                return this.data ? this.data.tabs: null;
+            },
+//            title() {
+//                return this.data ? this.data.title: 'test';
+//            }
         }
     }
 </script>

@@ -165,36 +165,28 @@ appData.objects = [];
 appData.users = [];
 appData.properties = [];
 appData.appSettings = {
+    editors: {
+        objects : {
+            title: 'Объекты',
+            tabs: ['main', 'props', 'links']
+        },
+        properties: {
+            title: 'Свойства',
+            tabs: ['main']
+        }
+    },
     editorTabs : [
         {
             id: 'main',
             text: 'Основные данные',
-            dialogs: ['dlgObjects', 'dlgProps', 'dlgUsers'],
-            props: [
-                {type: 'object' },
-                {type: 'props'},
-                {type: 'users'}
-            ]
         },
         {
             id: 'props',
             text: 'Свойства',
-            dialogs: ['dlgObjects'],
-            props: [
-                {type: 'object' },
-                {type: 'props'},
-                {type: 'users'}
-            ]
         },
         {
             id: 'links',
             text: 'Связь с другими ИУС',
-            dialogs: ['dlgObjects'],
-            props: [
-                {type: 'object' },
-                {type: 'props'},
-                {type: 'users'}
-            ]
         }
     ],
     tablecolumns: ['id', 'ius', 'service', 'server', 'admin', 'ip'],
