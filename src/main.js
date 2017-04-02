@@ -45,11 +45,11 @@ DataObject.prototype.addProperty = function(propData) {
 
 let Data = function(type, data = {}) {
     switch (type) {
-        case 'object':
+        case 'objects':
             return new DataObject(data);
-        case 'property':
+        case 'properties':
             return new DataProperty(data);
-        case 'user':
+        case 'users':
             break;
     }
 };
@@ -175,20 +175,25 @@ appData.appSettings = {
             tabs: ['main']
         }
     },
-    editorTabs : [
-        {
-            id: 'main',
-            text: 'Основные данные',
-        },
-        {
-            id: 'props',
-            text: 'Свойства',
-        },
-        {
-            id: 'links',
-            text: 'Связь с другими ИУС',
-        }
-    ],
+    editorTabs : {
+        main :'Основные данные',
+        props: 'Свойства',
+        links: 'Связь с другими ИУС'
+    },
+    //     [
+    //     {
+    //         id: 'main',
+    //         text: 'Основные данные',
+    //     },
+    //     {
+    //         id: 'props',
+    //         text: 'Свойства',
+    //     },
+    //     {
+    //         id: 'links',
+    //         text: 'Связь с другими ИУС',
+    //     }
+    // ],
     tablecolumns: ['id', 'ius', 'service', 'server', 'admin', 'ip'],
     groupby: 'ius'
 };

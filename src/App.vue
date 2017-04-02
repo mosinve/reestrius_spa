@@ -34,7 +34,7 @@
         </transition>
         <!--<objEditor id="dlgObjects" title="Объекты" type="object" :data="dlgData"/>-->
         <!--<propEditor id="dlgProps" title="Свойства" type="property" :data="dlgData"/>-->
-        <editor ref="editor" :data="editorData" :title="editorData.title"></editor>
+        <editor ref="editor" :data="editorData"></editor>
 
     </div>
 
@@ -80,17 +80,18 @@
                 editorData: {}
             }
         },
-        computed: {
-            dlgData(){
-                return this.$root.appData[this.type]
-            }
-        },
+//        computed: {
+//            dlgData(){
+//                return this.$root.appData[this.type]
+//            }
+//        },
         methods: {
             openEditor(target) {
-                this.editorData = this.$root.appData.appSettings.editors[target];
-                this.editorData.type = target;
-                this.$forceUpdate();
+                this.$set(this.editorData, 'dlgData', this.$root.appData.appSettings.editors[target]);
+                this.$set(this.editorData, 'type', target);
+//                this.$forceUpdate();
                 this.$nextTick(function () {
+                    this.$root.$emit('initTabs');
                     this.$root.$emit('show::modal', 'editor');
                 })
 
