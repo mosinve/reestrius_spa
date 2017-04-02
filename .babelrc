@@ -1,6 +1,8 @@
 {
   "presets": [
-    "es2015"
+    [ "env", {
+      "debug": true
+    }]
   ],
   "plugins": [
     "transform-vue-jsx",

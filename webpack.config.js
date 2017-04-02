@@ -1,11 +1,9 @@
 var path = require('path');
 var webpack = require('webpack');
+var fs = require('fs');
 
 module.exports = {
     entry: './src/main.js',
-    node: {
-        fs: "empty"
-    },
     output: {
         path: path.resolve(__dirname, './dist'),
         publicPath: '/dist/',
@@ -24,15 +22,20 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                exclude: /node_modules/
+                exclude: /node_modules/,
+                // include: [
+                //     fs.realpath('node_modules', 'vue/dist')
+                //     // fs.realpath('node_modules', 'bootstrap-vue/dist'),
+                // ],
             },
             { // if you use vue.common.js, you can remove it
                 test: /\.esm.js$/,
                 loader: 'babel-loader',
-                include: [
-                    path.resolve('node_modules', 'vue/dist'),
-                    path.resolve('node_modules', 'bootstrap-vue/dist'),
-                ]
+                exclude: /node_modules\/(?!vue)/,
+                // include: [
+                //     path.resolve('node_modules', 'vue/dist'),
+                //     path.resolve('node_modules', 'bootstrap-vue/dist'),
+                // ]
             },
             {
                 test: /\.jsx?$/,
@@ -78,7 +81,7 @@ module.exports = {
         noInfo: true
     },
     performance: {
-        hints: false
+        hints: "warning"
     },
     devtool: "inline-source-map",
     plugins: [
