@@ -89,6 +89,7 @@
             openEditor(target) {
                 this.$set(this.editorData, 'dlgData', this.$root.appData.appSettings.editors[target]);
                 this.$set(this.editorData, 'type', target);
+                this.$set(this.editorData, 'objects', this.$root.appData[target]);
 //                this.$forceUpdate();
                 this.$nextTick(function () {
                     this.$root.$emit('initTabs');

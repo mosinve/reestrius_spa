@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="col">
                         <b-list-group tag="div">
-                            <b-list-group-item @click="setActive(index)" :ref="type" tag="button" action
+                            <b-list-group-item @click.native="setActive(index)" :ref="type" tag="button" action
                                                v-for="(object, index) in objects" :key="object.id">
                                 {{object.name}}
                             </b-list-group-item>
@@ -94,7 +94,7 @@
             setActive(index) {
                 const activeItem = this.getActive();
                 if (activeItem !== -1) {
-                    this.$set(this.$refs[this.type][activeItem],'active',false);
+                    this.$refs[this.type][activeItem].active = false
                 }
                 this.$refs[this.type][index].active = true;
                 this.selectedItem = index
