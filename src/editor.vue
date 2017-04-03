@@ -1,10 +1,11 @@
 <template>
-    <b-modal id="editor"
+    <b-modal ref="modal"
+             id="editor"
              :title="title"
              size="lg"
              closeTitle="Отмена"
              saveTitle="Сохранить"
-             :closeOnBackdrop="true"
+             :closeOnBackdrop="false"
              :fade="fade"
              @ok="modalOK"
              @cancel="modalCancel"
@@ -36,9 +37,9 @@
                     <b-tabs card small>
                     <b-tab :title="tab" v-for="(tab,index) in tabs" :key="index">
                         {{tab}}
-                        <b-form-fieldset horizontal :label="prop.name" class="col" :label-size="2" v-for="prop in props[index]"
+                        <b-form-fieldset horizontal :label="prop.name" class="col" :label-size="2" v-for="(prop, index) in props[index]"
                                          :key="prop.id">
-                            <b-form-input v-model="prop.value"></b-form-input>
+                            {{index}} <b-form-input v-model="prop.value"></b-form-input>
                         </b-form-fieldset>
                     </b-tab>
                 </b-tabs>
@@ -60,7 +61,6 @@
             return {
                 filter: '',
                 selectedItem: null,
-                objects: []
             }
         },
         props: {
@@ -83,8 +83,7 @@
         },
         methods: {
             addItem(type) {
-                let newobj = this.$root.Data(type);
-                newobj.id = this.objects.length+1;
+                let newobj = this.$root.Data(type, {id: this.objects.length+1});
                 this.objects.push(newobj);
                 this.$nextTick( function () {
                     this.setActive(newobj.id-1)
@@ -123,7 +122,7 @@
         computed: {
             props() {
 //                return this.selectedItem ? Object.keys(this.data[this.selectedItem]) : []
-                return this.selectedItem ? this.objects[this.selectedItem]:[];
+                return this.selectedItem !== null ? this.objects[this.selectedItem].getProperties():[];
             },
             type() {
                 return this.data.hasOwnProperty('type') ? this.data.type: null;
@@ -133,6 +132,9 @@
             },
             title() {
                 return this.data.hasOwnProperty('dlgData') ? this.data.dlgData.title: 'test';
+            },
+            objects() {
+                return this.data.objects
             }
         }
     }

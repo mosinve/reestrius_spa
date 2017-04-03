@@ -32,9 +32,7 @@
                 <component v-bind:is="currentView" ref="test"></component>
             </keep-alive>
         </transition>
-        <!--<objEditor id="dlgObjects" title="Объекты" type="object" :data="dlgData"/>-->
-        <!--<propEditor id="dlgProps" title="Свойства" type="property" :data="dlgData"/>-->
-        <editor ref="editor" :data="editorData"></editor>
+        <editor ref="editor" :data="editorData" :title="editorData.title"></editor>
 
     </div>
 
@@ -44,9 +42,6 @@
 <script>
     import viewScheme from './viewScheme.vue';
     import viewTable from './viewTable.vue';
-//    import objEditor from './objeditor.vue';
-//    import propEditor from './propeditor.vue';
-//    import userEditor from './usereditor.vue';
     import editor from './editor.vue'
 
     const filter = {
@@ -69,9 +64,6 @@
             viewScheme,
             viewTable,
             'my-filter': filter,
-//            objEditor,
-//            propEditor,
-//            userEditor,
             editor,
         },
         data () {
@@ -95,7 +87,6 @@
                     this.$root.$emit('initTabs');
                     this.$root.$emit('show::modal', 'editor');
                 })
-
             }
         }
     }

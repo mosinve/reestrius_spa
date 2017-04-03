@@ -27,11 +27,33 @@ let reestriusStorage = {
 };
 
 let DataProperty = function (data) {
-    this.name = data.name;
     this.id = data.id;
-    this.code = data.code;
-    this.type = data.type;
+    this.properties = {
+        main: [
+            {
+                id: 'name',
+                name: 'Наименование',
+                value: data.name
+            },
+            {
+                id: 'code',
+                name: 'Код',
+                value: data.code
+            },
+            {
+                id: 'type',
+                name: 'Тип',
+                value: data.type
+            }
+        ]
+    }
 };
+
+let getProperties = function() {
+    return Object.keys(this.properties).map(prop => this.properties[prop])
+};
+
+DataProperty.prototype.getProperties = getProperties;
 
 let DataObject = function (data) {
     this.id = data.id;
@@ -42,6 +64,7 @@ let DataObject = function (data) {
 DataObject.prototype.addProperty = function(propData) {
     this.properties.push(propData)
 };
+DataObject.prototype.getProperties = getProperties;
 
 let Data = function(type, data = {}) {
     switch (type) {
