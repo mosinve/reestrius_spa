@@ -32,7 +32,10 @@
                 <component v-bind:is="currentView" ref="test"></component>
             </keep-alive>
         </transition>
-        <editor ref="editor" :data="editorData" :title="editorData.title"></editor>
+        <keep-alive>
+            <editor ref="editor" :data="editorData"></editor>
+        </keep-alive>
+
 
     </div>
 

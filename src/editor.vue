@@ -35,21 +35,15 @@
             <div class="col-8">
                 <b-card no-block>
                     <b-tabs card small>
-                    <b-tab :title="tab" v-for="(tab,index) in tabs" :key="index">
-                        {{tab}}
+                        <b-tab :title="tab" v-for="(tab,index) in tabs" :key="index">
+                            {{tab}}
                         <b-form-fieldset horizontal :label="prop.name" class="col" :label-size="2" v-for="(prop, index) in props[index]"
                                          :key="prop.id">
-                            {{index}} <b-form-input v-model="prop.value"></b-form-input>
+                            <b-form-input v-model="prop.value"></b-form-input>
                         </b-form-fieldset>
-                    </b-tab>
-                </b-tabs>
+                        </b-tab>
+                    </b-tabs>
                 </b-card>
-                <div id="main">
-
-                </div>
-                <div id="props">
-
-                </div>
             </div>
         </div>
     </b-modal>
@@ -86,7 +80,7 @@
                 let newobj = this.$root.Data(type, {id: this.objects.length+1});
                 this.objects.push(newobj);
                 this.$nextTick( function () {
-                    this.setActive(newobj.id-1)
+                        this.setActive(newobj.id-1)
                     }
                 );
             },
@@ -133,8 +127,14 @@
             title() {
                 return this.data.hasOwnProperty('dlgData') ? this.data.dlgData.title: 'test';
             },
-            objects() {
-                return this.data.objects
+            objects: {
+                get: function () {
+                    return this.data.objects
+                },
+                set: function (newValue) {
+                    this.$root.appData[this.type].push(newValue);
+                }
+
             }
         }
     }

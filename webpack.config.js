@@ -28,10 +28,11 @@ module.exports = {
                 //     // fs.realpath('node_modules', 'bootstrap-vue/dist'),
                 // ],
             },
-            { // if you use vue.common.js, you can remove it
+            {
+                // if you use vue.common.js, you can remove it
                 test: /\.esm.js$/,
                 loader: 'babel-loader',
-                exclude: /node_modules\/(?!vue)/,
+                exclude: /node_modules\/(?!vue(?!\W))/,
                 // include: [
                 //     path.resolve('node_modules', 'vue/dist'),
                 //     path.resolve('node_modules', 'bootstrap-vue/dist'),
@@ -93,6 +94,7 @@ module.exports = {
             'window.Vue': 'vue',
             VueResource: "exports-loader?plugin!vue-resource/dist/vue-resource.es2015",
             BootstrapVue: "exports-loader?VuePlugin!bootstrap-vue/dist/bootstrap-vue.esm",
+            Vuex: "exports-loader?index_esm!vuex/dist/vuex.esm",
         })
     ]
 };

@@ -1,6 +1,6 @@
 <template>
 <div id="people">
-  <v-client-table :data="tableData" :columns="columns" :options="options" ref="table"></v-client-table>
+  <v-client-table :data="tableData" :columns="columns" :options="options" ref="table" name="dataTable"></v-client-table>
 </div>
 </template>
 
