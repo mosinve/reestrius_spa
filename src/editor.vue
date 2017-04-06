@@ -81,7 +81,7 @@
                 return this.selectedItem !== null ? this.objects[this.selectedItem].getProperties():[];
             },
             type() {
-                return this.data.hasOwnProperty('type') ? this.data.type: null;
+                return this.$store.state.activeEditor
             },
             tabs() {
                 return this.data.hasOwnProperty('dlgData') && this.data.dlgData.tabs.length? this.data.dlgData.tabs.map(tab => this.$root.appData.appSettings.editorTabs[tab]): null;
@@ -91,7 +91,7 @@
             },
             objects: {
                 get: function () {
-                    return this.$state.editorItems
+                    return this.$store.getters.editorItems
                 },
                 set: function (newValue) {
                     this.$root.appData[this.type].push(newValue);
