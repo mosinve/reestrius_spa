@@ -6,7 +6,7 @@ import 'vis/dist/vis.min.css';
 import appData from './api/datamodel';
 import App from "./App.vue";
 import {ClientTable} from "vue-tables-2";
-
+import * as types from './mutation-types'
 Vue.use(BootstrapVue);
 Vue.use(VueResource);
 
@@ -30,26 +30,68 @@ const objectsData = {
     state: {
         all: []
     },
+    getters: {
+        getObject: (state, getters) => (id) => {
+            return state.all.find(el => el.id === id)
+        }
+    },
+    mutations: {
+        [types.objects.ADD_ITEM] (state, {item}) {
+            state.all.push(item)
+        },
+        [types.objects.EDIT_ITEM] (state, {itemId, newData}){
+            let item = state.all.find(el => el.id === itemId);
+            newData.keys.forEach(function (key) {
+                item[key] = newData[key]
+            });
+            state.all[itemId] = item
+        }
+    },
+    actions: {
+
+    }
 };
 
 const propertiesData = {
     state: {
         all :[]
     },
-};
-
-const appData = {
-    state: {
-        current
-    }
-}
-
-const store = new Vuex.Store({
+    // getters: {
+    //
+    // },
     mutations: {
-        increment (state) {
-            state.count++
+        [types.properties.ADD_ITEM] (state, {item}) {
+            state.all.push(item)
+        },
+        [types.properties.EDIT_ITEM] (state, {itemId, newData}){
+            let item = state.all.find(el => el.id === itemId);
+            newData.keys.forEach(function (key) {
+                item[key] = newData[key]
+            });
+            state.all[itemId] = item
         }
     }
+};
+
+const store = new Vuex.Store({
+    strict: process.env.NODE_ENV !== 'production',
+    state: {
+        activeEditor: null,
+        visPositions: null
+    },
+    modules:{
+        objects : objectsData,
+        properties: propertiesData,
+    },
+    mutations: {
+        setEditorType(state, id){
+            state.activeEditor = id
+        }
+    },
+    getters: {
+        editorItems : (state, getters) => state.activeEditor? state[state.activeEditor].all: null
+    }
+
 });
 
 let DataProperty = function (data) {
@@ -90,6 +132,7 @@ let DataObject = function (data) {
 DataObject.prototype.addProperty = function(propData) {
     this.properties.push(propData)
 };
+
 DataObject.prototype.getProperties = getProperties;
 
 let Data = function(type, data = {}) {

@@ -34,7 +34,7 @@
             </div>
             <div class="col-8">
                 <b-card no-block>
-                    <b-tabs card small>
+                    <b-tabs card small noFade>
                         <b-tab :title="tab" v-for="(tab,index) in tabs" :key="index">
                             {{tab}}
                         <b-form-fieldset horizontal :label="prop.name" class="col" :label-size="2" v-for="(prop, index) in props[index]"
@@ -55,6 +55,7 @@
             return {
                 filter: '',
                 selectedItem: null,
+
             }
         },
         props: {
@@ -73,6 +74,29 @@
             value: {
                 type: Number,
                 default: 0
+            }
+        },
+        computed: {
+            props() {
+                return this.selectedItem !== null ? this.objects[this.selectedItem].getProperties():[];
+            },
+            type() {
+                return this.data.hasOwnProperty('type') ? this.data.type: null;
+            },
+            tabs() {
+                return this.data.hasOwnProperty('dlgData') && this.data.dlgData.tabs.length? this.data.dlgData.tabs.map(tab => this.$root.appData.appSettings.editorTabs[tab]): null;
+            },
+            title() {
+                return this.data.hasOwnProperty('dlgData') ? this.data.dlgData.title: 'test';
+            },
+            objects: {
+                get: function () {
+                    return this.$state.editorItems
+                },
+                set: function (newValue) {
+                    this.$root.appData[this.type].push(newValue);
+                }
+
             }
         },
         methods: {
@@ -112,30 +136,6 @@
             filter(value) {
                 console.info(value)
             },
-        },
-        computed: {
-            props() {
-//                return this.selectedItem ? Object.keys(this.data[this.selectedItem]) : []
-                return this.selectedItem !== null ? this.objects[this.selectedItem].getProperties():[];
-            },
-            type() {
-                return this.data.hasOwnProperty('type') ? this.data.type: null;
-            },
-            tabs() {
-                return this.data.hasOwnProperty('dlgData') && this.data.dlgData.tabs.length? this.data.dlgData.tabs.map(tab => this.$root.appData.appSettings.editorTabs[tab]): null;
-            },
-            title() {
-                return this.data.hasOwnProperty('dlgData') ? this.data.dlgData.title: 'test';
-            },
-            objects: {
-                get: function () {
-                    return this.data.objects
-                },
-                set: function (newValue) {
-                    this.$root.appData[this.type].push(newValue);
-                }
-
-            }
         }
     }
 </script>

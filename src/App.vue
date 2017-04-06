@@ -75,21 +75,16 @@
                 editorData: {}
             }
         },
-//        computed: {
-//            dlgData(){
-//                return this.$root.appData[this.type]
-//            }
-//        },
         methods: {
             openEditor(target) {
+                this.$store.commit('setEditorType', target);
                 this.$set(this.editorData, 'dlgData', this.$root.appData.appSettings.editors[target]);
-                this.$set(this.editorData, 'type', target);
                 this.$set(this.editorData, 'objects', this.$root.appData[target]);
-//                this.$forceUpdate();
-                this.$nextTick(function () {
-                    this.$root.$emit('initTabs');
-                    this.$root.$emit('show::modal', 'editor');
-                })
+                this.$root.$emit('initTabs');
+                this.$root.$emit('show::modal', 'editor');
+
+//                this.$nextTick(function () {
+//                })
             }
         }
     }
