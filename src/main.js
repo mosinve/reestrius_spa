@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable no-undef,no-prototype-builtins */
 import "font-awesome/scss/font-awesome.scss";
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -7,7 +7,7 @@ import appData from './api/datamodel';
 import App from "./App.vue";
 import {ClientTable} from "vue-tables-2";
 import * as types from './mutation-types'
-import * as lang from './lang'
+import * as _lang from './lang'
 Vue.use(VueResource);
 Vue.use(BootstrapVue);
 
@@ -75,11 +75,11 @@ const propertiesData = {
 };
 
 const store = new Vuex.Store({
-    strict: process.env.NODE_ENV !== 'production',
+    // strict: process.env.NODE_ENV !== "production",
     state: {
-        activeEditor: null,
+        activeEditor: "",
         visPositions: null,
-        lang: lang
+        lang: _lang
     },
     modules:{
         objects : objectsData,
@@ -88,12 +88,23 @@ const store = new Vuex.Store({
     mutations: {
         setEditorType(state, id){
             state.activeEditor = id
-        }
+        },
+        toggleItem(state, {id, active}){
+            Vue.set(state[state.activeEditor].all.find(el => el.id === id), "selected", active)
+        },
     },
     getters: {
-        editorItems : (state, getters) => state.activeEditor? state[state.activeEditor].all: null,
+        currentModule: state => state[state.activeEditor],
+        editorItems : (state, getters) => state.activeEditor ? getters.currentModule.all : [],
         itemById: (state, getters) => (id) => {
-            return state[state.activeEditor].all.find(el => el.id === id)
+            return getters.editorItems.find(el => el.id === id)
+        },
+        activeItem: (state, getters) => {
+            item = getters.editorItems.find(el => el.selected);
+            if (item === undefined) {
+                return null
+            }
+            return item.hasOwnProperty("id")? item.id : null
         }
     },
     actions: {
@@ -107,24 +118,27 @@ const store = new Vuex.Store({
 let DataProperty = function (data) {
     this.id = data.id;
     this.properties = {
-        main: [
-            {
+        main: {
+            name: {
                 id: 'name',
                 name: 'Наименование',
                 value: data.name
             },
-            {
+            code: {
                 id: 'code',
                 name: 'Код',
                 value: data.code
             },
-            {
+            type : {
                 id: 'type',
                 name: 'Тип',
                 value: data.type
             }
-        ]
+        }
     }
+    Object.defineProperty(this, "name", {
+        get: () => this.properties.main.name.value
+    });
 };
 
 let getProperties = function() {

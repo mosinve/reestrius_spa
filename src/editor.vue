@@ -9,6 +9,7 @@
              :fade="fade"
              @ok="modalOK"
              @cancel="modalCancel"
+             @hidden="hidden"
     >
         <div class="row">
             <div class="col">
@@ -24,7 +25,7 @@
                 <div class="row">
                     <div class="col">
                         <b-list-group tag="div">
-                            <b-list-group-item @click.native="setActive(index)" :ref="type" tag="button" action :active="selectedItem"
+                            <b-list-group-item @click.native="setActive(object.id)" :ref="type" tag="button" action :active="object.selected"
                                                v-for="(object, index) in objects" :key="object.id">
                                 {{object.name}}
                             </b-list-group-item>
@@ -34,9 +35,8 @@
             </div>
             <div class="col-8">
                 <b-card no-block>
-                    <b-tabs card small noFade>
+                    <b-tabs card small noFade v-model="tabIndex">
                         <b-tab :title="tab" v-for="(tab,index) in tabs" :key="index">
-                            {{tab}}
                         <b-form-fieldset horizontal :label="prop.name" class="col" :label-size="2" v-for="(prop, index) in props[index]"
                                          :key="prop.id">
                             <b-form-input v-model="prop.value"></b-form-input>
@@ -55,7 +55,7 @@
             return {
                 filter: '',
                 selectedItem: null,
-
+                tabIndex:null
             }
         },
         props: {
@@ -78,7 +78,7 @@
         },
         computed: {
             props() {
-                return this.selectedItem !== null ? this.$store.getters.itemById(this.selectedItem+1).getProperties() : [];
+                return this.selectedItem !== null ? this.$store.getters.itemById(this.selectedItem).getProperties() : [];
             },
             type() {
                 return this.$store.state.activeEditor
@@ -98,25 +98,26 @@
                 let newobj = this.$root.Data(type, {id: this.objects.length+1});
                 this.$store.dispatch('addItem', newobj);
                 this.$nextTick( function () {
-                        this.setActive(newobj.id-1)
+                        this.setActive(newobj.id)
                     }
                 );
             },
-            setActive(index) {
+            setActive(id) {
                 const activeItem = this.getActive();
                 if (activeItem !== -1) {
-//                    this.$set(this.$refs[this.type][activeItem], 'active', false);
-                    this.$refs[this.type][activeItem].active = false
+                    this.$store.commit('toggleItem', {id: activeItem, active: false})
                 }
 //                this.$set(this.$refs[this.type][index], 'active', true);
-                this.$refs[this.type][index].active = true;
-                this.selectedItem = index
+                this.$store.commit('toggleItem', {id: id, active: true})
+//                this.$refs[this.type][index].active = true;
+                this.selectedItem = id
             },
+
             getActive(){
                 let active = -1;
                 this.$refs[this.type].forEach((item, index) => {
                     if (item.active) {
-                        active = index;
+                        active = this.$store.getters.editorItems[index].id;
                     }
                 });
                 return active;
@@ -126,12 +127,17 @@
             },
             modalCancel(){
                 console.log(this)
+            },
+            hidden(){
+                this.selectedItem = null;
+                this.tabIndex = 0;
+                console.log('im closed')
             }
         },
         watch: {
             filter(value) {
                 console.info(value)
-            },
+            }
         }
     }
 </script>
