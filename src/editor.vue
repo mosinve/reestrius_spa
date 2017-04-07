@@ -3,7 +3,7 @@
              id="editor"
              :title="title"
              size="lg"
-             closeTitle="Отмена"
+             closeTitle=""
              saveTitle="Сохранить"
              :closeOnBackdrop="false"
              :fade="fade"
@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col">
                         <b-list-group tag="div">
-                            <b-list-group-item @click.native="setActive(index)" :ref="type" tag="button" action
+                            <b-list-group-item @click.native="setActive(index)" :ref="type" tag="button" action :active="selectedItem"
                                                v-for="(object, index) in objects" :key="object.id">
                                 {{object.name}}
                             </b-list-group-item>
@@ -78,7 +78,7 @@
         },
         computed: {
             props() {
-                return this.selectedItem !== null ? this.objects[this.selectedItem].getProperties():[];
+                return this.selectedItem !== null ? this.$store.getters.itemById(this.selectedItem+1).getProperties() : [];
             },
             type() {
                 return this.$store.state.activeEditor
@@ -87,22 +87,16 @@
                 return this.data.hasOwnProperty('dlgData') && this.data.dlgData.tabs.length? this.data.dlgData.tabs.map(tab => this.$root.appData.appSettings.editorTabs[tab]): null;
             },
             title() {
-                return this.data.hasOwnProperty('dlgData') ? this.data.dlgData.title: 'test';
+                return this.$store.state.lang.RU[this.type]
             },
-            objects: {
-                get: function () {
+            objects() {
                     return this.$store.getters.editorItems
-                },
-                set: function (newValue) {
-                    this.$root.appData[this.type].push(newValue);
                 }
-
-            }
         },
         methods: {
             addItem(type) {
                 let newobj = this.$root.Data(type, {id: this.objects.length+1});
-                this.objects.push(newobj);
+                this.$store.dispatch('addItem', newobj);
                 this.$nextTick( function () {
                         this.setActive(newobj.id-1)
                     }
@@ -111,8 +105,10 @@
             setActive(index) {
                 const activeItem = this.getActive();
                 if (activeItem !== -1) {
+//                    this.$set(this.$refs[this.type][activeItem], 'active', false);
                     this.$refs[this.type][activeItem].active = false
                 }
+//                this.$set(this.$refs[this.type][index], 'active', true);
                 this.$refs[this.type][index].active = true;
                 this.selectedItem = index
             },

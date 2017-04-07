@@ -23,20 +23,16 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/,
-                // include: [
-                //     fs.realpath('node_modules', 'vue/dist')
-                //     // fs.realpath('node_modules', 'bootstrap-vue/dist'),
-                // ],
             },
             {
                 // if you use vue.common.js, you can remove it
                 test: /\.esm.js$/,
                 loader: 'babel-loader',
-                exclude: /node_modules\/(?!vue(?!\W))/,
-                // include: [
-                //     path.resolve('node_modules', 'vue/dist'),
-                //     path.resolve('node_modules', 'bootstrap-vue/dist'),
-                // ]
+                //exclude: /node_modules\/(?!vue(?!\W))/,
+                include: [
+                    path.resolve('node_modules', 'vue/dist'),
+                    path.resolve('node_modules', 'bootstrap-vue/dist'),
+                ]
             },
             {
                 test: /\.jsx?$/,
@@ -86,6 +82,9 @@ module.exports = {
     },
     devtool: "inline-source-map",
     plugins: [
+        new webpack.LoaderOptionsPlugin({
+            debug: true
+        }),
         new webpack.NamedModulesPlugin(),
         new webpack.ProvidePlugin({
             Tether: "tether",

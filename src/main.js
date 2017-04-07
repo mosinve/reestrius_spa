@@ -7,8 +7,9 @@ import appData from './api/datamodel';
 import App from "./App.vue";
 import {ClientTable} from "vue-tables-2";
 import * as types from './mutation-types'
-Vue.use(BootstrapVue);
+import * as lang from './lang'
 Vue.use(VueResource);
+Vue.use(BootstrapVue);
 
 let STORAGE_KEY = 'reestrius_app';
 
@@ -36,7 +37,7 @@ const objectsData = {
         }
     },
     mutations: {
-        [types.objects.ADD_ITEM] (state, {item}) {
+        [types.objects.ADD_ITEM] (state, item) {
             state.all.push(item)
         },
         [types.objects.EDIT_ITEM] (state, {itemId, newData}){
@@ -60,7 +61,7 @@ const propertiesData = {
     //
     // },
     mutations: {
-        [types.properties.ADD_ITEM] (state, {item}) {
+        [types.properties.ADD_ITEM] (state, item) {
             state.all.push(item)
         },
         [types.properties.EDIT_ITEM] (state, {itemId, newData}){
@@ -77,7 +78,8 @@ const store = new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
     state: {
         activeEditor: null,
-        visPositions: null
+        visPositions: null,
+        lang: lang
     },
     modules:{
         objects : objectsData,
@@ -89,7 +91,15 @@ const store = new Vuex.Store({
         }
     },
     getters: {
-        editorItems : (state, getters) => state.activeEditor? state[state.activeEditor].all: null
+        editorItems : (state, getters) => state.activeEditor? state[state.activeEditor].all: null,
+        itemById: (state, getters) => (id) => {
+            return state[state.activeEditor].all.find(el => el.id === id)
+        }
+    },
+    actions: {
+        addItem ({commit, state}, item) {
+            commit(types[state.activeEditor].ADD_ITEM, item)
+        }
     }
 
 });

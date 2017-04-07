@@ -81,10 +81,9 @@
                 this.$set(this.editorData, 'dlgData', this.$root.appData.appSettings.editors[target]);
                 this.$set(this.editorData, 'objects', this.$root.appData[target]);
                 this.$root.$emit('initTabs');
-                this.$root.$emit('show::modal', 'editor');
-
-//                this.$nextTick(function () {
-//                })
+                this.$nextTick(function () {
+                    this.$root.$emit('show::modal', 'editor');
+                })
             }
         }
     }
