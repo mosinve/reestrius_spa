@@ -79,7 +79,7 @@ const store = new Vuex.Store({
     state: {
         activeEditor: "",
         visPositions: null,
-        lang: _lang
+        lang: _lang,
     },
     modules:{
         objects : objectsData,
@@ -105,7 +105,8 @@ const store = new Vuex.Store({
                 return null
             }
             return item.hasOwnProperty("id")? item.id : null
-        }
+        },
+        _r : (state, getters) => (text) => state.lang.RU[text]
     },
     actions: {
         addItem ({commit, state}, item) {
@@ -115,49 +116,60 @@ const store = new Vuex.Store({
 
 });
 
-let DataProperty = function (data) {
-    this.id = data.id;
-    this.properties = {
-        main: {
-            name: {
-                id: 'name',
-                name: 'Наименование',
-                value: data.name
-            },
-            code: {
-                id: 'code',
-                name: 'Код',
-                value: data.code
-            },
-            type : {
-                id: 'type',
-                name: 'Тип',
-                value: data.type
-            }
+let DataProperty = function ({id,name='',code='',type='String'}) {
+    this.id = id;
+    this.properties =
+        {
+            main: [
+                {
+                    code: "name",
+                    type: "String",
+                    value: name
+                },
+                {
+                    code: "type",
+                    type: "Array",
+                    value: type
+                },
+                {
+                    code: 'code',
+                    type: "String",
+                    value: code
+                },
+            ],
+            meta: []
         }
-    }
-    Object.defineProperty(this, "name", {
-        get: () => this.properties.main.name.value
-    });
+        Object.defineProperty(this, 'name', {
+            get() {
+                return this.properties.main[0].value
+            }
+        })
 };
 
-let getProperties = function() {
-    return Object.keys(this.properties).map(prop => this.properties[prop])
-};
-
-DataProperty.prototype.getProperties = getProperties;
-
-let DataObject = function (data) {
-    this.id = data.id;
+let DataObject = function ({id, name='',type=''}) {
+    this.id = id;
     this.links = [];
-    this.properties = []
+    this.properties =
+        {
+            main: [
+                {
+                    code: "name",
+                    type: "String",
+                    value: name
+                },
+                {
+                    code: "type",
+                    type: "Array",
+                    value: type
+                }
+            ],
+            meta: []
+        }
 };
 
 DataObject.prototype.addProperty = function(propData) {
     this.properties.push(propData)
 };
-
-DataObject.prototype.getProperties = getProperties;
 
 let Data = function(type, data = {}) {
     switch (type) {

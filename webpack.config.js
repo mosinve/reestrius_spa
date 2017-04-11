@@ -82,9 +82,6 @@ module.exports = {
     },
     devtool: "inline-source-map",
     plugins: [
-        new webpack.LoaderOptionsPlugin({
-            debug: true
-        }),
         new webpack.NamedModulesPlugin(),
         new webpack.ProvidePlugin({
             Tether: "tether",
@@ -94,6 +91,8 @@ module.exports = {
             VueResource: "exports-loader?plugin!vue-resource/dist/vue-resource.es2015",
             BootstrapVue: "exports-loader?VuePlugin!bootstrap-vue/dist/bootstrap-vue.esm",
             Vuex: "exports-loader?index_esm!vuex/dist/vuex.esm",
+            "_": "lodash",
+            "window._": "lodash"
         })
     ]
 };

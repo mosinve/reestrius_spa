@@ -25,8 +25,8 @@
                 <div class="row">
                     <div class="col">
                         <b-list-group tag="div">
-                            <b-list-group-item @click.native="setActive(object.id)" :ref="type" tag="button" action :active="object.selected"
-                                               v-for="(object, index) in objects" :key="object.id">
+                            <b-list-group-item class="btn-sm btn" @click.native="setActive(object.id)" :ref="type" tag="button" action :active="object.selected"
+                                               v-for="(object, index) in objects" :key="object.code">
                                 {{object.name}}
                             </b-list-group-item>
                         </b-list-group>
@@ -36,10 +36,15 @@
             <div class="col-8">
                 <b-card no-block>
                     <b-tabs card small noFade v-model="tabIndex">
-                        <b-tab :title="tab" v-for="(tab,index) in tabs" :key="index">
-                        <b-form-fieldset horizontal :label="prop.name" class="col" :label-size="2" v-for="(prop, index) in props[index]"
-                                         :key="prop.id">
-                            <b-form-input v-model="prop.value"></b-form-input>
+                        <b-tab :title="tab.title" v-for="(tab,index) in tabs" :key="tab.id">
+                        <b-form-fieldset horizontal :label="$store.getters._r(prop.code)" class="col " :label-size="4" v-for="prop in props[tab.id]"
+                                         :key="prop.code">
+                            <b-form-input v-model="prop.value" v-if="prop.type === String.name"></b-form-input>
+                            <b-form-select v-model="prop.value"
+                                           :options="$root.appData.propTypes"
+                                           calss="mb-3"
+                                           v-if="prop.type === Array.name"
+                            ></b-form-select>
                         </b-form-fieldset>
                         </b-tab>
                     </b-tabs>
@@ -78,13 +83,13 @@
         },
         computed: {
             props() {
-                return this.selectedItem !== null ? this.$store.getters.itemById(this.selectedItem).getProperties() : [];
+                return this.selectedItem !== null ? this.$store.getters.itemById(this.selectedItem).properties : [];
             },
             type() {
                 return this.$store.state.activeEditor
             },
             tabs() {
-                return this.data.hasOwnProperty('dlgData') && this.data.dlgData.tabs.length? this.data.dlgData.tabs.map(tab => this.$root.appData.appSettings.editorTabs[tab]): null;
+                return this.data.hasOwnProperty('dlgData') && this.data.dlgData.tabs.length? this.data.dlgData.tabs.map(tab => {return {id: tab, title: this.$store.getters._r(tab)}}, this) : null;
             },
             title() {
                 return this.$store.state.lang.RU[this.type]
@@ -132,6 +137,7 @@
                 this.selectedItem = null;
                 this.tabIndex = 0;
                 console.log('im closed')
+                this.$store.getters.editorItems.forEach(el => this.$store.commit('toggleItem', {id: el.id, active: false}))
             }
         },
         watch: {

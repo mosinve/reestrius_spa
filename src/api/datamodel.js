@@ -113,37 +113,17 @@ export default {
         ],
     objects : [],
     users :[],
-    properties : [],
+    objMeta : [],
+    propTypes:['String', 'Array', 'Boolean'],
     appSettings : {
         editors: {
             objects : {
-                title: 'Объекты',
-                tabs: ['main', 'props', 'links']
+                tabs: ['main', 'properties', 'links']
             },
             properties: {
-                title: 'Свойства',
                 tabs: ['main']
             }
         },
-        editorTabs : {
-            main :'Основные данные',
-            props: 'Свойства',
-            links: 'Связь с другими ИУС'
-        },
-        //     [
-        //     {
-        //         id: 'main',
-        //         text: 'Основные данные',
-        //     },
-        //     {
-        //         id: 'props',
-        //         text: 'Свойства',
-        //     },
-        //     {
-        //         id: 'links',
-        //         text: 'Связь с другими ИУС',
-        //     }
-        // ],
         tablecolumns: ['id', 'ius', 'service', 'server', 'admin', 'ip'],
         groupby: 'ius'
     }
