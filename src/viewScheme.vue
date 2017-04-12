@@ -56,7 +56,7 @@
     					navigationButtons: true,
     					hover: true,
     					multiselect: true,
-    					keyboard: true,
+    					keyboard: false,
   					},
                     groups:{
   		                ius: {
@@ -108,13 +108,38 @@
   		            },
                     layout: {
   		                improvedLayout:true,
-//						randomSeed: 851884
+						randomSeed: 851884
 //                		randomSeed: 296570,
 //						randomSeed: 942307
 //                        randomSeed: 670367
 //                        hierarchical: 	{
 //  		                    sortMethod: 'directed',
 //                        },
+                    },
+                    physics: {
+                        forceAtlas2Based: {
+                            gravitationalConstant: -26,
+                            centralGravity: 0.005,
+                            springLength: 230,
+                            springConstant: 0.18
+                        },
+                        barnesHut: {
+                            gravitationalConstant: -1000,
+                            centralGravity: 0.4,
+                            springLength: 100,
+//                            springConstant: 0.18,
+//                            damping: 0.09,
+                            avoidOverlap: 0.9
+                        },
+//                        maxVelocity: 100,
+                        //solver: 'forceAtlas2Based',
+                        timestep: 0.5,
+                        adaptiveTimestep: true,
+                        stabilization: {
+                            enabled:true,
+                            iterations:500,
+//                            updateInterval:25
+                        }
                     },
                     edges: {
                         smooth: true,
@@ -205,6 +230,7 @@
             }
   		},
         mounted() {
+//            this.datasetNodes = new vis.DataSet(this.$store.getters.nodes);
             this.datasetNodes = new vis.DataSet(this.$root.appData.Nodes);
             this.datasetEdges = new vis.DataSet(this.$root.appData.Edges);
             this.container = document.getElementById('canvas');

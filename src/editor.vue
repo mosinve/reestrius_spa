@@ -41,7 +41,7 @@
                                          :key="prop.code">
                             <b-form-input v-model="prop.value" v-if="prop.type === String.name"></b-form-input>
                             <b-form-select v-model="prop.value"
-                                           :options="$root.appData.propTypes"
+                                           :options="prop.options"
                                            calss="mb-3"
                                            v-if="prop.type === Array.name"
                             ></b-form-select>
@@ -55,6 +55,95 @@
 </template>
 
 <script>
+
+    let DataProperty = function ({id,name='',code='',type='String'}) {
+        this.id = id;
+        this.properties =
+            {
+                main: [
+                    {
+                        code: "name",
+                        type: "String",
+                        value: name
+                    },
+                    {
+                        code: "type",
+                        type: "Array",
+                        value: type,
+                        options: ['String','Array', 'Boolean']
+                    },
+                    {
+                        code: 'code',
+                        type: "String",
+                        value: code
+                    },
+                ],
+                meta: []
+            };
+        Object.defineProperty(this, 'name', {
+            get() {
+                return this.properties.main[0].value
+            }
+        });
+        Object.defineProperty(this, 'type', {
+            get() {
+                return this.properties.main[1].value
+            }
+        });
+        Object.defineProperty(this, 'value', {
+            get() {
+                return this.properties.main[2].value
+            }
+        })
+    };
+
+    let DataObject = function ({id, name='',type=''}) {
+        this.id = id;
+        this.properties = {
+            main: [
+                {
+                    code: "name",
+                    type: "String",
+                    value: name
+                },
+                {
+                    code: "type",
+                    type: "Array",
+                    value: type,
+                    options: ['ius','service', 'server', 'cluster']
+                }
+            ],
+            meta: [],
+            links: []
+        };
+        Object.defineProperty(this, 'name', {
+            get() {
+                return this.properties.main[0].value
+            }
+        });
+        Object.defineProperty(this, 'type', {
+            get() {
+                return this.properties.main[1].value
+            }
+        })
+
+    };
+
+    DataObject.prototype.addProperty = function(propData) {
+        this.properties.push(propData)
+    };
+
+    let Data = function(type, data = {}) {
+        switch (type) {
+            case 'objects':
+                return new DataObject(data);
+            case 'properties':
+                return new DataProperty(data);
+            case 'users':
+                break;
+        }
+    };
+
     export default {
         data(){
             return {
@@ -100,7 +189,7 @@
         },
         methods: {
             addItem(type) {
-                let newobj = this.$root.Data(type, {id: this.objects.length+1});
+                let newobj = Data(type, {id: this.objects.length+1});
                 this.$store.dispatch('addItem', newobj);
                 this.$nextTick( function () {
                         this.setActive(newobj.id)
@@ -136,7 +225,7 @@
             hidden(){
                 this.selectedItem = null;
                 this.tabIndex = 0;
-                console.log('im closed')
+                console.log('im closed');
                 this.$store.getters.editorItems.forEach(el => this.$store.commit('toggleItem', {id: el.id, active: false}))
             }
         },

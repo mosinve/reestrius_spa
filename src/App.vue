@@ -2,12 +2,11 @@
     <div id="app" class="bg-faded d-flex flex-column">
         <b-navbar toggleable type="inverse" variant="inverse" sticky="top">
             <b-nav-toggle target="nav_collapse"/>
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="#">
                 РеестрИУС
             </a>
             <b-collapse isNav id="nav_collapse">
                 <b-nav isNavBar class="mr-auto">
-                    <b-nav-item class="active" href="/">Главная</b-nav-item>
                     <b-nav-item-dropdown text="Справочники" size="sm">
                         <b-dropdown-item href="#" @click.stop.prevent="openEditor('objects')">Объекты</b-dropdown-item>
                         <b-dropdown-item href="#" v-b-modal.editor @click="openEditor('properties')">Свойства</b-dropdown-item>

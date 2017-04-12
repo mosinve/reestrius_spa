@@ -32,8 +32,13 @@ const objectsData = {
         all: []
     },
     getters: {
-        getObject: (state, getters) => (id) => {
+        objectById: (state, getters) => (id) => {
             return state.all.find(el => el.id === id)
+        },
+        nodes: (state, getters) => {
+            return state.all.map(el => {
+                return {id: el.id, label: el.name, group: el.type}
+            })
         }
     },
     mutations: {
@@ -116,72 +121,6 @@ const store = new Vuex.Store({
 
 });
 
-let DataProperty = function ({id,name='',code='',type='String'}) {
-    this.id = id;
-    this.properties =
-        {
-            main: [
-                {
-                    code: "name",
-                    type: "String",
-                    value: name
-                },
-                {
-                    code: "type",
-                    type: "Array",
-                    value: type
-                },
-                {
-                    code: 'code',
-                    type: "String",
-                    value: code
-                },
-            ],
-            meta: []
-        }
-        Object.defineProperty(this, 'name', {
-            get() {
-                return this.properties.main[0].value
-            }
-        })
-};
-
-let DataObject = function ({id, name='',type=''}) {
-    this.id = id;
-    this.links = [];
-    this.properties =
-        {
-            main: [
-                {
-                    code: "name",
-                    type: "String",
-                    value: name
-                },
-                {
-                    code: "type",
-                    type: "Array",
-                    value: type
-                }
-            ],
-            meta: []
-        }
-};
-
-DataObject.prototype.addProperty = function(propData) {
-    this.properties.push(propData)
-};
-
-let Data = function(type, data = {}) {
-    switch (type) {
-        case 'objects':
-            return new DataObject(data);
-        case 'properties':
-            return new DataProperty(data);
-        case 'users':
-            break;
-    }
-};
-
 Vue.use(ClientTable, {}, true, require('./template.js')('client'));
 
 //noinspection Eslint
@@ -191,8 +130,5 @@ let reestrius = new Vue({
     render: h => h(App),
     data: {
         appData
-    },
-    methods:{
-        Data
     }
 });

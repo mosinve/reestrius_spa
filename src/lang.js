@@ -10,5 +10,9 @@ export const RU = {
     type: "Тип",
     required: "Обязательное",
     main :'Основные данные',
-    links: 'Связь с другими ИУС'
+    links: 'Связь с другими ИУС',
+    ius: 'ИУС',
+    service: 'Сервис',
+    server: 'Сервер',
+    cluster: 'Кластер'
 };
