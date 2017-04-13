@@ -19,7 +19,7 @@
                         </b-form-input>
                     </div>
                     <div class="col-3">
-                        <b-btn @click="addItem(type)"><i class="fa fa-plus" aria-hidden="true"></i></b-btn>
+                        <b-btn @click="addItem(type)"><i class="fa fa-plus-circle" aria-hidden="true"></i></b-btn>
                     </div>
                 </div>
                 <div class="row">
@@ -36,16 +36,36 @@
             <div class="col-8">
                 <b-card no-block>
                     <b-tabs card small noFade v-model="tabIndex">
+
                         <b-tab :title="tab.title" v-for="(tab,index) in tabs" :key="tab.id">
-                        <b-form-fieldset horizontal :label="$store.getters._r(prop.code)" class="col " :label-size="4" v-for="prop in props[tab.id]"
+                            <b-form-fieldset horizontal :label="$store.getters._r(prop.code)"
+                                         class="col "
+                                         :label-size="4"
+                                         v-for="prop in props[tab.id]"
                                          :key="prop.code">
+
                             <b-form-input v-model="prop.value" v-if="prop.type === String.name"></b-form-input>
+
                             <b-form-select v-model="prop.value"
                                            :options="prop.options"
-                                           calss="mb-3"
                                            v-if="prop.type === Array.name"
                             ></b-form-select>
+
+                            <b-btn v-if="tab.id != 'main'">
+                                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                            </b-btn>
                         </b-form-fieldset>
+
+                            <div class="input-group mb-3">
+                                <b-form-select v-model="newProp[tab.id]"
+                                               :options="$store.getters.getProps(tab.id, selectedItemId)"
+                                               v-if="tab.id != 'main'"
+                                ></b-form-select>
+                                <b-btn v-if="tab.id != 'main'"
+                                       @click="selectedItem.addProperty({type:tab.id, value:{objid:selectedItemId, propId:newProp[tab.id]}})">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </b-btn>
+                            </div>
                         </b-tab>
                     </b-tabs>
                 </b-card>
@@ -90,11 +110,11 @@
                 return this.properties.main[1].value
             }
         });
-        Object.defineProperty(this, 'value', {
+        Object.defineProperty(this, 'code', {
             get() {
                 return this.properties.main[2].value
             }
-        })
+        });
     };
 
     let DataObject = function ({id, name='',type=''}) {
@@ -130,7 +150,7 @@
     };
 
     DataObject.prototype.addProperty = function(propData) {
-        this.properties.push(propData)
+        this.properties[propData.type].push(propData.value)
     };
 
     let Data = function(type, data = {}) {
@@ -148,8 +168,12 @@
         data(){
             return {
                 filter: '',
+                selectedItemId: null,
                 selectedItem: null,
-                tabIndex:null
+                tabIndex:null,
+                newProp: [],
+                currentTab: 0,
+                properties: null
             }
         },
         props: {
@@ -172,7 +196,11 @@
         },
         computed: {
             props() {
-                return this.selectedItem !== null ? this.$store.getters.itemById(this.selectedItem).properties : [];
+                if (this.selectedItemId)
+                {
+                    return this.selectedItem.properties
+                }
+                return [];
             },
             type() {
                 return this.$store.state.activeEditor
@@ -204,7 +232,8 @@
 //                this.$set(this.$refs[this.type][index], 'active', true);
                 this.$store.commit('toggleItem', {id: id, active: true})
 //                this.$refs[this.type][index].active = true;
-                this.selectedItem = id
+                this.selectedItemId = id;
+                this.selectedItem = this.$store.getters.itemById(this.selectedItemId)
             },
 
             getActive(){
@@ -223,7 +252,7 @@
                 console.log(this)
             },
             hidden(){
-                this.selectedItem = null;
+                this.selectedItemId = null;
                 this.tabIndex = 0;
                 console.log('im closed');
                 this.$store.getters.editorItems.forEach(el => this.$store.commit('toggleItem', {id: el.id, active: false}))

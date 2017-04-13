@@ -3,7 +3,7 @@
  */
 export const RU = {
     objects: 'Объекты',
-    properties: 'Свойства',
+    meta: 'Свойства',
     users: 'Пользователи',
     name: "Наименование",
     code: "Код",

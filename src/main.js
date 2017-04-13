@@ -32,6 +32,9 @@ const objectsData = {
         all: []
     },
     getters: {
+        links: state => (id) => state.all.filter(el => el.id !== id).map(el=> {
+            return {text: el.name, value: el.id}
+        }),
         objectById: (state, getters) => (id) => {
             return state.all.find(el => el.id === id)
         },
@@ -62,9 +65,11 @@ const propertiesData = {
     state: {
         all :[]
     },
-    // getters: {
-    //
-    // },
+    getters: {
+        meta: state => (id) => state.all.map(el=> {
+            return {text: el.name, value: el.code}
+        })
+    },
     mutations: {
         [types.properties.ADD_ITEM] (state, item) {
             state.all.push(item)
@@ -99,6 +104,11 @@ const store = new Vuex.Store({
         },
     },
     getters: {
+        getProps: (state, getters) => {
+            return function(tab,id){
+                return getters[tab](id)
+            }
+        },
         currentModule: state => state[state.activeEditor],
         editorItems : (state, getters) => state.activeEditor ? getters.currentModule.all : [],
         itemById: (state, getters) => (id) => {

@@ -36,7 +36,7 @@
                 <b-card no-block>
                     <b-tabs card small>
                     <b-tab :id="tab.id" :title="tab.text" v-for="tab in tabs" :key="tab.id" v-if="tab.dialogs.includes(id)">
-                        <b-form-fieldset v-if="selectedItem" horizontal :label="key" class="col" :label-size="2" v-for="key in propkeys"
+                        <b-form-fieldset v-if="selectedItemId" horizontal :label="key" class="col" :label-size="2" v-for="key in propkeys"
                                          :key="key">
                             {{key}}
                             <b-form-input v-model="this.data[key]"></b-form-input>

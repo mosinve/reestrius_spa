@@ -124,12 +124,12 @@
                             springConstant: 0.18
                         },
                         barnesHut: {
-                            gravitationalConstant: -1000,
-                            centralGravity: 0.4,
+//                            gravitationalConstant: -1000,
+//                            centralGravity: 0.4,
                             springLength: 100,
 //                            springConstant: 0.18,
 //                            damping: 0.09,
-                            avoidOverlap: 0.9
+//                            avoidOverlap: 0.9
                         },
 //                        maxVelocity: 100,
                         //solver: 'forceAtlas2Based',

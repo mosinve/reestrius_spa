@@ -36,7 +36,7 @@ export default {
             {id: 7, label: 'MODES MMC', group: 'service'},
             {id: 8, label: 'MODES MPPM', group: 'service'},
             {id: 9, label: 'MODES ZVK Transfer', group: 'service'},
-            {id: 10, label: 'Кластер MODES-SQL', group: 'cluster'},
+            {id: 10, label: 'Кластерный ресурс MODES-SQL-ODUSB', group: 'cluster'},
             {id: 11, label: 'modes1-odusb', group: 'server'},
             {id: 12, label: 'modes2-odusb', group: 'server'},
             {id: 13, label: 'Сервер БД PROGNOZ', group: 'service'},
@@ -60,6 +60,7 @@ export default {
             {id: 31, label: 'Запасная группа CKZAPAS', group: 'cluster'},
             {id: 32, label: 'ЦОД', group: 'ius'},
             {id: 33, label: 'ПАК СРТ/СРПГ', group: 'ius'},
+            {id: 34, label: 'Кластер MODES-ODUSB', group: 'cluster'}
         ],
     Edges :
         [
@@ -78,8 +79,9 @@ export default {
             {from: 8, to: 0, weight: 10},
             {from: 9, to: 0, weight: 10},
             {from: 10, to: 5, weight: 10},
-            {from: 11, to: 10, weight: 10},
-            {from: 12, to: 10, weight: 10},
+            {from: 34, to: 10, weight: 10},
+            {from: 11, to: 34, weight: 10},
+            {from: 12, to: 34, weight: 10},
             {from: 13, to: 14, weight: 10},
             {from: 13, to: 15, weight: 10},
             {from: 13, to: 1, weight: 10},
@@ -118,7 +120,7 @@ export default {
     appSettings : {
         editors: {
             objects : {
-                tabs: ['main', 'properties', 'links']
+                tabs: ['main', 'meta', 'links']
             },
             properties: {
                 tabs: ['main']
