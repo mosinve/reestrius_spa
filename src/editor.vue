@@ -38,6 +38,16 @@
                     <b-tabs card small noFade v-model="tabIndex">
 
                         <b-tab :title="tab.title" v-for="(tab,index) in tabs" :key="tab.id">
+                            <div class="input-group mb-3">
+                                <b-form-select v-model="newProp[tab.id]"
+                                               :options="$store.getters.getProps(tab.id, selectedItemId)"
+                                               v-if="tab.id != 'main'"
+                                ></b-form-select>
+                                <b-btn v-if="tab.id != 'main'"
+                                       @click="selectedItem.addProperty({type:tab.id, value:{propId:newProp[0], value: ''}})">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </b-btn>
+                            </div>
                             <b-form-fieldset horizontal :label="$store.getters._r(prop.code)"
                                          class="col "
                                          :label-size="4"
@@ -55,17 +65,6 @@
                                 <i class="fa fa-minus-circle" aria-hidden="true"></i>
                             </b-btn>
                         </b-form-fieldset>
-
-                            <div class="input-group mb-3">
-                                <b-form-select v-model="newProp[tab.id]"
-                                               :options="$store.getters.getProps(tab.id, selectedItemId)"
-                                               v-if="tab.id != 'main'"
-                                ></b-form-select>
-                                <b-btn v-if="tab.id != 'main'"
-                                       @click="selectedItem.addProperty({type:tab.id, value:{objid:selectedItemId, propId:newProp[tab.id]}})">
-                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                </b-btn>
-                            </div>
                         </b-tab>
                     </b-tabs>
                 </b-card>
@@ -151,6 +150,10 @@
 
     DataObject.prototype.addProperty = function(propData) {
         this.properties[propData.type].push(propData.value)
+    };
+
+    DataObject.prototype.getProperties = function(propData) {
+        return
     };
 
     let Data = function(type, data = {}) {
@@ -268,3 +271,5 @@
 
 <style scoped>
 </style>
+
+html
