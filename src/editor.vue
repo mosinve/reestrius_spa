@@ -35,35 +35,35 @@
             </div>
             <div class="col-8">
                 <b-card no-block>
-                    <b-tabs card small noFade v-model="tabIndex">
+                    <b-tabs card small v-model="tabIndex">
 
                         <b-tab :title="tab.title" v-for="(tab,index) in tabs" :key="tab.id">
                             <div class="input-group mb-3">
-                                <b-form-select v-model="newProp[tab.id]"
+                                <b-form-select v-model="tab.prop"
                                                :options="$store.getters.getProps(tab.id, selectedItemId)"
                                                v-if="tab.id != 'main'"
                                 ></b-form-select>
                                 <b-btn v-if="tab.id != 'main'"
-                                       @click="selectedItem.addProperty({type:tab.id, value:{propId:newProp[0], value: ''}})">
+                                       @click="selectedItem.addProperty({type:tab.id, value:$store.getters.propertyByCode(tab.prop)})">
                                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                 </b-btn>
                             </div>
-                            <b-form-fieldset horizontal :label="$store.getters._r(prop.code)"
+                            <b-form-fieldset horizontal :label="$store.getters._r(prop.code) || prop.name"
                                          class="col "
                                          :label-size="4"
-                                         v-for="prop in props[tab.id]"
+                                         v-for="(prop, index) in props[tab.id]"
                                          :key="prop.code">
-
+                            <div class="input-group">
                             <b-form-input v-model="prop.value" v-if="prop.type === String.name"></b-form-input>
 
                             <b-form-select v-model="prop.value"
                                            :options="prop.options"
                                            v-if="prop.type === Array.name"
                             ></b-form-select>
-
-                            <b-btn v-if="tab.id != 'main'">
+                            <span v-if="tab.id != 'main'" class="input-group-addon"><b-btn size="sm" @click="selectedItem.delProperty(tab.id, index)">
                                 <i class="fa fa-minus-circle" aria-hidden="true"></i>
-                            </b-btn>
+                            </b-btn></span>
+                            </div>
                         </b-form-fieldset>
                         </b-tab>
                     </b-tabs>
@@ -75,8 +75,11 @@
 
 <script>
 
-    let DataProperty = function ({id,name='',code='',type='String'}) {
+    let DataProperty = function ({id,name='',code='',type='String', value=null}, store=null) {
+        this.$store = store;
         this.id = id;
+        this.selected = false;
+        this.value = value;
         this.properties =
             {
                 main: [
@@ -116,8 +119,10 @@
         });
     };
 
-    let DataObject = function ({id, name='',type=''}) {
+    let DataObject = function ({id, name='',type=''}, store=null) {
+        this.$store = store;
         this.id = id;
+        this.selected = false;
         this.properties = {
             main: [
                 {
@@ -144,24 +149,32 @@
             get() {
                 return this.properties.main[1].value
             }
+        });
+        Object.defineProperty(this, 'meta', {
+            get() {
+                return this.properties.meta
+            },
+            set(propData) {
+                this.properties[propData.type].push(propData.value)
+            }
         })
 
     };
 
     DataObject.prototype.addProperty = function(propData) {
-        this.properties[propData.type].push(propData.value)
+        propData.value.forEach(item => this.properties[propData.type].push(new DataProperty(item)));
+        return this.properties[propData.type].length
+    };
+    DataObject.prototype.delProperty = function(type, index) {
+        this.properties[type].splice(index, 1);
     };
 
-    DataObject.prototype.getProperties = function(propData) {
-        return
-    };
-
-    let Data = function(type, data = {}) {
+    let Data = function(type, data = {}, store=null) {
         switch (type) {
             case 'objects':
-                return new DataObject(data);
+                return new DataObject(data, store);
             case 'properties':
-                return new DataProperty(data);
+                return new DataProperty(data, store);
             case 'users':
                 break;
         }
@@ -209,7 +222,7 @@
                 return this.$store.state.activeEditor
             },
             tabs() {
-                return this.data.hasOwnProperty('dlgData') && this.data.dlgData.tabs.length? this.data.dlgData.tabs.map(tab => {return {id: tab, title: this.$store.getters._r(tab)}}, this) : null;
+                return this.data.hasOwnProperty('dlgData') && this.data.dlgData.tabs.length? this.data.dlgData.tabs.map(tab => {return {id: tab, title: this.$store.getters._r(tab), prop: this.newProp[tab]}}, this) : null;
             },
             title() {
                 return this.$store.state.lang.RU[this.type]
@@ -220,7 +233,7 @@
         },
         methods: {
             addItem(type) {
-                let newobj = Data(type, {id: this.objects.length+1});
+                let newobj = Data(type, {id: this.objects.length+1}, this.$store);
                 this.$store.dispatch('addItem', newobj);
                 this.$nextTick( function () {
                         this.setActive(newobj.id)

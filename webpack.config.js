@@ -84,8 +84,8 @@ module.exports = {
     plugins: [
         new webpack.NamedModulesPlugin(),
         new webpack.ProvidePlugin({
-            Tether: "tether",
-            "window.Tether": "tether",
+            // Tether: "tether",
+            // "window.Tether": "tether",
             Vue: "vue",
             'window.Vue': 'vue',
             VueResource: "exports-loader?plugin!vue-resource/dist/vue-resource.es2015",

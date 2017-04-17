@@ -68,7 +68,9 @@ const propertiesData = {
     getters: {
         meta: state => (id) => state.all.map(el=> {
             return {text: el.name, value: el.code}
-        })
+        }),
+        propertyById: state => (id) => state.all.filter(el => el.id === id),
+        propertyByCode: state => (code) => state.all.filter(el => el.code === code),
     },
     mutations: {
         [types.properties.ADD_ITEM] (state, item) {
@@ -115,7 +117,7 @@ const store = new Vuex.Store({
             return getters.editorItems.find(el => el.id === id)
         },
         activeItem: (state, getters) => {
-            item = getters.editorItems.find(el => el.selected);
+            let item = getters.editorItems.find(el => el.selected);
             if (item === undefined) {
                 return null
             }

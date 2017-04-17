@@ -30,7 +30,7 @@
                 let edgeobj = this.datasetEdges.get(edge);
                 return (edgeobj[direction] !== node) && (edgeobj.weight >= 10)
             },this);
-            if (connectedEdges.length != 0) {                                                       // если такие связи есть, то
+            if (connectedEdges.length !== 0) {                                                       // если такие связи есть, то
                 affectedNodes =connectedEdges.map(function (edge) {                                            // для каждой связи
                     return this.datasetEdges.get(edge)[direction];                                      // выбираем конечный узел
                 },this);
