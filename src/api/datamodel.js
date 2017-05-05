@@ -2,7 +2,6 @@
  * Created by MosinVE on 04.04.2017.
  */
 export default {
-
     tableData :
         [
             {id: '1', ius: 'MODES-Terminal', service: 'Host', server: 'modes-sql-odusb', admin: 'Мосин', ip: 'xxx'},

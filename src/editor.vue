@@ -44,7 +44,7 @@
                                                v-if="tab.id != 'main'"
                                 ></b-form-select>
                                 <b-btn v-if="tab.id != 'main'"
-                                       @click="selectedItem.addProperty({type:tab.id, value:$store.getters.propertyByCode(tab.prop)})">
+                                       @click="selectedItem.addProperty({type:tab.id, value:$store.getters.propertyById(tab.prop)})">
                                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                 </b-btn>
                             </div>
@@ -55,11 +55,13 @@
                                          :key="prop.code">
                             <div class="input-group">
                             <b-form-input v-model="prop.value" v-if="prop.type === String.name"></b-form-input>
+                                <b-form-input-static v-if="prop.type === 'Link'" :value="prop.value"></b-form-input-static>
 
                             <b-form-select v-model="prop.value"
                                            :options="prop.options"
                                            v-if="prop.type === Array.name"
                             ></b-form-select>
+
                             <span v-if="tab.id != 'main'" class="input-group-addon"><b-btn size="sm" @click="selectedItem.delProperty(tab.id, index)">
                                 <i class="fa fa-minus-circle" aria-hidden="true"></i>
                             </b-btn></span>
@@ -75,7 +77,7 @@
 
 <script>
 
-    let DataProperty = function ({id,name='',code='',type='String', value=null}, store=null) {
+    let DataProperty = function ({id,name='',code='',type='Link', value=null}, store=null) {
         this.$store = store;
         this.id = id;
         this.selected = false;
@@ -284,5 +286,3 @@
 
 <style scoped>
 </style>
-
-html

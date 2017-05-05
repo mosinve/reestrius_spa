@@ -1,7 +1,5 @@
 <template>
-	<div id="canvas" class="canvas-wrap d-flex flex-column">	
-	<!-- <cmpObject v-for="object in objectsList" :object="object" :key="object.id"></cmpObject> -->		
-	</div>
+	<div id="canvas" class="canvas-wrap d-flex flex-column"></div>
 </template>
 
 <script>
@@ -12,7 +10,7 @@
 //    TODO 4. Сохранение/загрузка координат объектов в localstore
 //    TODO 5. Центрирование/увеличение масштаба viewport на выделенном объекте
 
-	import vis from 'vis';
+	import vis from 'vis/index';
 
 	if (!String.prototype.includes) {
         String.prototype.includes = function() {
@@ -123,7 +121,7 @@
                             springLength: 230,
                             springConstant: 0.18
                         },
-                        barnesHut: {
+                        barnesHut       : {
 //                            gravitationalConstant: -1000,
 //                            centralGravity: 0.4,
                             springLength: 100,
@@ -133,9 +131,9 @@
                         },
 //                        maxVelocity: 100,
                         //solver: 'forceAtlas2Based',
-                        timestep: 0.5,
+                        timestep        : 0.5,
                         adaptiveTimestep: true,
-                        stabilization: {
+                        stabilization   : {
                             enabled:true,
                             iterations:500,
 //                            updateInterval:25

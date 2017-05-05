@@ -67,7 +67,7 @@ const propertiesData = {
     },
     getters: {
         meta: state => (id) => state.all.map(el=> {
-            return {text: el.name, value: el.code}
+            return {text: el.name, value: el.id}
         }),
         propertyById: state => (id) => state.all.filter(el => el.id === id),
         propertyByCode: state => (code) => state.all.filter(el => el.code === code),
