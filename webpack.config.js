@@ -89,7 +89,8 @@ module.exports = {
             Vue: "vue",
             'window.Vue': 'vue',
             VueResource: "exports-loader?plugin!vue-resource/dist/vue-resource.es2015",
-            BootstrapVue: "exports-loader?VuePlugin!bootstrap-vue/lib/index",
+            // BootstrapVue: "exports-loader?VuePlugin!bootstrap-vue/lib/index",
+            BootstrapVue: "exports-loader?VuePlugin!bootstrap-vue/dist/bootstrap-vue.esm",
             Vuex: "exports-loader?index_esm!vuex/dist/vuex.esm",
             "_": "lodash",
             "window._": "lodash"

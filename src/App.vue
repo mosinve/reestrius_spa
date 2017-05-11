@@ -8,9 +8,9 @@
             <b-collapse isNav id="nav_collapse">
                 <b-nav isNavBar class="mr-auto">
                     <b-nav-item-dropdown text="Справочники" size="sm">
-                        <b-dropdown-item href="#" @click.stop.prevent="openEditor('objects')">Объекты</b-dropdown-item>
-                        <b-dropdown-item href="#" v-b-modal.editor @click="openEditor('properties')">Свойства</b-dropdown-item>
-                        <b-dropdown-item href="#">Пользователи</b-dropdown-item>
+                        <b-dropdown-item @click.native="openEditor('objects')">Объекты</b-dropdown-item>
+                        <b-dropdown-item @click.native="openEditor('properties')">Свойства</b-dropdown-item>
+                        <b-dropdown-item >Пользователи</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-nav>
                 <form class="form-inline ">
@@ -28,19 +28,12 @@
         </form>
         <transition name="fade" mode="out-in">
             <keep-alive>
-                <component v-bind:is="currentView" ref="test"></component>
+                <component :is="currentView" ref="test"></component>
             </keep-alive>
         </transition>
-        <keep-alive>
-            <editor ref="editor" :data="editorData"></editor>
-        </keep-alive>
-
-
+        <editor ref="editor" :data="editorData"></editor>
     </div>
-
-
 </template>
-
 <script>
     import viewScheme from './viewScheme.vue';
     import viewTable from './viewTable.vue';
