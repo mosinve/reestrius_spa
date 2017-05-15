@@ -1,5 +1,5 @@
 /**
- * Created by MosinVE on 04.04.2017.
+ * created by MosinVE on 04.04.2017.
  */
 export default {
     tableData :
@@ -117,6 +117,7 @@ export default {
     objMeta : [],
     propTypes:['String', 'Array', 'Boolean'],
     appSettings : {
+        lang: 'RU',
         editors: {
             objects : {
                 tabs: ['main', 'meta', 'links']
