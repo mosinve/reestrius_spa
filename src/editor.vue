@@ -52,11 +52,11 @@
                                 </b-btn>
                             </div>
                             <property v-for="(prop, index) in props[tab.id]" :key="prop.code" :id="prop.code">
-                                {{$store.getters._r(prop.code) || prop.name}}
+                                {{$store.getters._r(prop.code, 'RU') || prop.name}}
                             </property>
                             <b-form-fieldset horizontal
                                              class="col "
-                                             :label="$store.getters._r(prop.code) || prop.name"
+                                             :label="$store.getters._r(prop.code, 'RU') || prop.name"
                                              :label-size="4"
                                              :key="prop.code"
                                              :id="prop.code"
@@ -200,9 +200,6 @@
     };
 
     let LinkObject = function ({fromId, toId, linkType}, store = null) {
-        return function () {
-
-        }
         this.$store = store;
         this.fromId = fromId;
         this.toId = toId;
@@ -266,7 +263,7 @@
             },
             tabs() {
                 return this.data.hasOwnProperty('dlgData') && this.data.dlgData.tabs.length ? this.data.dlgData.tabs.map(tab => {
-                    return {id: tab, title: this.$store.getters._r(tab), prop: this.newProp[tab]}
+                    return {id: tab, title: this.$store.getters._r(tab, 'RU'), prop: this.newProp[tab]}
                 }, this) : null;
             },
             title() {

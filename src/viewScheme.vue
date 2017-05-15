@@ -1,18 +1,18 @@
 <template>
-	<div id="canvas" class="canvas-wrap d-flex flex-column"></div>
+    <div id="canvas" class="canvas-wrap d-flex flex-column"></div>
 </template>
 
 <script>
 
-//    TODO 1. Кластеризация (сворачивание элементов) при уменьшении масштаба с поддержкой иерархии.
-//    TODO 2. Симуляция отключения с учетом весов связей.
-//    TODO 3. Загрузка данных с backend вместо статичных массивов
-//    TODO 4. Сохранение/загрузка координат объектов в localstore
-//    TODO 5. Центрирование/увеличение масштаба viewport на выделенном объекте
+    //    TODO 1. Кластеризация (сворачивание элементов) при уменьшении масштаба с поддержкой иерархии.
+    //    TODO 2. Симуляция отключения с учетом весов связей.
+    //    TODO 3. Загрузка данных с backend вместо статичных массивов
+    //    TODO 4. Сохранение/загрузка координат объектов в localstore
+    //    TODO 5. Центрирование/увеличение масштаба viewport на выделенном объекте
 
-	import vis from 'vis/index';
+        import vis from 'vis/index';
 
-	if (!String.prototype.includes) {
+    if (!String.prototype.includes) {
         String.prototype.includes = function() {
             'use strict';
             return String.prototype.indexOf.apply(this, arguments) !== -1;
@@ -40,25 +40,23 @@
         return nodes.concat(allaffectedNodes);
     }
 
-	export default{
-  		name: 'viewScheme',
+    export default {
         data() {
-  		    return {
+            return {
                 datasetNodes: null,
                 datasetEdges: null,
-  		        allNodes: null,
-                network: null,                
+                network: null,
                 highlightActive: false,
                 options: {
-  		            interaction:{
-    					navigationButtons: true,
-    					hover: true,
-    					multiselect: true,
-    					keyboard: false,
-  					},
+                    interaction:{
+                        navigationButtons: true,
+                        hover: true,
+                        multiselect: true,
+                        keyboard: false,
+                    },
                     groups:{
-  		                ius: {
-  		                    shape: 'icon',
+                        ius: {
+                            shape: 'icon',
                             mass: 1,
                             icon: {
                                 face: 'FontAwesome',
@@ -67,7 +65,7 @@
                                 color: '#000'
                             },
                             color: '#000'
-  		                },
+                        },
                         service: {
                             shape: 'icon',
                             mass: 5,
@@ -78,7 +76,7 @@
                                 color: '#0E3EB8'
                             },
                             color: '#0E3EB8'
-  		                },
+                        },
                         cluster: {
                             shape: 'icon',
                             mass: 1,
@@ -89,7 +87,7 @@
                                 color: '#80551D'
                             },
                             color: '#80551D'
-  		                },
+                        },
                         server: {
                             shape: 'icon',
                             mass: 5,
@@ -100,12 +98,12 @@
                                 color: '#57169a'
                             },
                             color: '#57169a'
-  		                }
-  		            },
+                        }
+                    },
                     nodes: {
-  		            },
+                    },
                     layout: {
-  		                improvedLayout:true,
+                        improvedLayout:true,
 						randomSeed: 851884
 //                		randomSeed: 296570,
 //						randomSeed: 942307
@@ -144,102 +142,112 @@
                         color: {inherit: 'both'},
                         arrowStrikethrough: false,
                         arrows: {middle : true }
-					},
-  		        },
-                container: '',
-                disabled: false,
-                methods: {
-                    highlight : function(nodes, color) {
-                        this.highlightActive = true;
-                        for (let nodeId in this.allNodes) {
-                            if ( this.allNodes.hasOwnProperty(nodeId))
-                                if (color.back){
-                                this.allNodes[nodeId].color = color.back;
-                                if (this.allNodes[nodeId].hiddenLabel === undefined) {
-                                    this.allNodes[nodeId].hiddenLabel = this.allNodes[nodeId].label;
-                                    this.allNodes[nodeId].label = undefined;
-                                }
-                                this.allNodes[nodeId]['icon'] = {color: color.back};
-                                if (color.back === undefined) delete this.allNodes[nodeId].icon
-							}
-                        }
-
-                        nodes.forEach(function(item){
-                                this.allNodes[item].color = color.front;
-                                if (this.allNodes[item].hiddenLabel !== undefined) {
-                                    this.allNodes[item].label = this.allNodes[item].hiddenLabel;
-                                    this.allNodes[item].hiddenLabel = undefined;
-                                }
-                                this.allNodes[item]['icon'] = {color: color.front};
-                                if (color.front === undefined) delete this.allNodes[item].icon;
-                        }, this);
-                        let updateArray = [];
-                        for (let nodeId in  this.allNodes) {
-                            if ( this.allNodes.hasOwnProperty(nodeId)) {
-                                updateArray.push( this.allNodes[nodeId]);
-                            }
-                        }
-                        this.datasetNodes.update(updateArray);
-					}.bind(this),
-                    resethighlight : function () {
-                            if (this.highlightActive === true) {
-                                // reset all nodes
-                                for (let nodeId in  this.allNodes) {
-                                    if ( this.allNodes.hasOwnProperty(nodeId)) {
-                                        this.allNodes[nodeId].color = undefined;
-                                        delete this.allNodes[nodeId].icon;
-                                        if (this.allNodes[nodeId].hiddenLabel !== undefined) {
-                                            this.allNodes[nodeId].label = this.allNodes[nodeId].hiddenLabel;
-                                            this.allNodes[nodeId].hiddenLabel = undefined;
-                                        }
-                                    }
-                                }
-                                this.highlightActive = false;
-                                let updateArray = [];
-                                for (let nodeId in  this.allNodes) {
-                                    if ( this.allNodes.hasOwnProperty(nodeId)) {
-                                        updateArray.push( this.allNodes[nodeId]);
-                                    }
-                                }
-                                this.datasetNodes.update(updateArray);
-                            }
-					}.bind(this),
-            	    getAffectedSubtree : function (params) {
-                        if (params.nodes.length > 0 && params.event.type === 'press') {
-                            this.methods.resethighlight(params);
-            	            let selectedNodes = params.nodes;
-                            let connectedNodes = getaffected.call(this, selectedNodes,'to');
-
-                            this.methods.highlight(connectedNodes, {front: 'rgba(255, 0, 0, 1)'});
-                        }
-                        else if (params.nodes.length === 0) this.methods.resethighlight()
-                    }.bind(this),
-                    getDependSubtree : function (params) {
-                        if (params.nodes.length > 0  && params.event.type === 'tap') {
-                            let selectedNodes = params.nodes;
-                            this.highlightActive = true;
-                            let connectedNodes = getaffected.call(this, selectedNodes,'from');
-
-                            this.methods.highlight(connectedNodes, {back: 'rgba(200,200,200,0.5)'});
-                        }
-                        else if (params.nodes.length === 0) this.methods.resethighlight()
-                    }.bind(this),
-            	}
+                    },
+                }
             }
-  		},
+        },
+        methods: {
+            allNodes() {
+                return this.datasetNodes.get({returnType: "Object"})
+            },
+            highlight(nodes, color) {
+                let allNodes = this.allNodes();
+                this.highlightActive = true;
+                for (let nodeId in allNodes) {
+                    if ( allNodes.hasOwnProperty(nodeId))
+                        if (color.back){
+                            allNodes[nodeId].color = color.back;
+                            if (allNodes[nodeId].hiddenLabel === undefined) {
+                                allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+                                allNodes[nodeId].label = undefined;
+                            }
+                            allNodes[nodeId]['icon'] = {color: color.back};
+                            if (color.back === undefined) delete allNodes[nodeId].icon
+                        }
+                }
+                nodes.forEach(function(item){
+                    allNodes[item].color = color.front;
+                    if (allNodes[item].hiddenLabel !== undefined) {
+                        allNodes[item].label = allNodes[item].hiddenLabel;
+                        allNodes[item].hiddenLabel = undefined;
+                    }
+                    allNodes[item]['icon'] = {color: color.front};
+                    if (color.front === undefined) delete allNodes[item].icon;
+                }, this);
+                let updateArray = [];
+                for (let nodeId in  allNodes) {
+                    if ( allNodes.hasOwnProperty(nodeId)) {
+                        updateArray.push( allNodes[nodeId]);
+                    }
+                }
+                this.datasetNodes.update(updateArray);
+            },
+            resetHighlight() {
+                let allNodes = this.allNodes();
+                if (this.highlightActive === true) {
+                    // reset all nodes
+                    for (let nodeId in  allNodes) {
+                        if ( allNodes.hasOwnProperty(nodeId)) {
+                            allNodes[nodeId].color = undefined;
+                            delete allNodes[nodeId].icon;
+                            if (allNodes[nodeId].hiddenLabel !== undefined) {
+                                allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+                                allNodes[nodeId].hiddenLabel = undefined;
+                            }
+                        }
+                    }
+                    this.highlightActive = false;
+                    let updateArray = [];
+                    for (let nodeId in  allNodes) {
+                        if ( allNodes.hasOwnProperty(nodeId)) {
+                            updateArray.push( allNodes[nodeId]);
+                        }
+                    }
+                    this.datasetNodes.update(updateArray);
+                }
+            },
+            getAffectedSubtree: function (params) {
+                if (params.nodes.length > 0 && params.event.type === 'press') {
+                    this.resetHighlight(params);
+                    let selectedNodes = params.nodes;
+                    let connectedNodes = getaffected.call(this, selectedNodes,'to');
+
+                    this.highlight(connectedNodes, {front: 'rgba(255, 0, 0, 1)', back: 'rgba(200,200,200,0.5)'});
+                }
+                else if (params.nodes.length === 0) this.resetHighlight()
+            },
+            getDependSubtree: function (params) {
+                if (params.nodes.length > 0  && params.event.type === 'tap') {
+                    let selectedNodes = params.nodes;
+                    this.highlightActive = true;
+                    let connectedNodes = getaffected.call(this, selectedNodes,'from');
+
+                    this.highlight(connectedNodes, {back: 'rgba(200,200,200,0.5)'});
+                }
+                else if (params.nodes.length === 0) this.resetHighlight()
+            }
+        },
         mounted() {
 //            this.datasetNodes = new vis.DataSet(this.$store.getters.nodes);
             this.datasetNodes = new vis.DataSet(this.$root.appData.Nodes);
+            const staticPositions = window.reestriusStorage.fetch(NODE_POSITIONS_KEY);
+            staticPositions && this.datasetNodes.update(this.datasetNodes.map((item,id) => Object.assign(item, staticPositions[id])));
             this.datasetEdges = new vis.DataSet(this.$root.appData.Edges);
             this.container = document.getElementById('canvas');
             let data = {
                 nodes: this.datasetNodes,
                 edges: this.datasetEdges
             };
+            this.datasetNodes.on('update', function (event, properties, senderId) {
+                window.reestriusStorage.save(properties.data, NODE_POSITIONS_KEY)
+            });
+//            if (window.reestriusStorage.uid !== 0) {
+//                this.options.physics.stabilization = false
+//            }
             this.network = new vis.Network(this.container, data, this.options);
-			this.allNodes = this.datasetNodes.get({returnType:"Object"});
-            this.network.on("select",this.methods.getDependSubtree);
-            this.network.on("hold",this.methods.getAffectedSubtree);
+            this.network.on("select",this.getDependSubtree);
+            this.network.on("hold",this.getAffectedSubtree);
+            this.network.on("stabilized", this.network.storePositions);
             this.$root.$on('query', function (query) {
                 if (query){
                     let filtered = this.datasetNodes.getIds({
@@ -248,17 +256,17 @@
                             return filter.toLocaleLowerCase().includes(query.toLocaleLowerCase())
                         }.bind(this)
                     });
-                    this.methods.highlight(filtered, {back: 'rgba(200, 200, 200, 0.5)'});
-				}
-				else this.methods.resethighlight()
+                    this.highlight(filtered, {back: 'rgba(200, 200, 200, 0.5)'});
+                }
+                else this.resetHighlight()
             }.bind(this));
             console.log(this.network.getSeed());
-  		},
+        },
 
         activated(){
             this.network.redraw();
-  		}
-	}
+        }
+    }
 </script>
 
 <style lang="css" scoped>

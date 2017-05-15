@@ -2,6 +2,7 @@
  * Created by MosinVE on 07.04.2017.
  */
 export const RU = {
+    appname: 'РеестрИУС',
     objects: 'Объекты',
     meta: 'Свойства',
     users: 'Пользователи',
@@ -14,5 +15,9 @@ export const RU = {
     ius: 'ИУС',
     service: 'Сервис',
     server: 'Сервер',
-    cluster: 'Кластер'
+    cluster: 'Кластер',
+    search: 'Поиск',
+    view:   'Вид',
+    scheme: 'Схема',
+    table: 'Таблица'
 };

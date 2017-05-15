@@ -8,22 +8,24 @@ import App from "./App.vue";
 import {ClientTable} from "vue-tables-2";
 import * as types from './mutation-types'
 import * as _lang from './lang'
+
 Vue.use(VueResource);
 Vue.use(BootstrapVue);
 
-let STORAGE_KEY = 'reestrius_app';
+window.NODE_POSITIONS_KEY = 'reestrius_app';
 
-let reestriusStorage = {
-    fetch() {
-        let settings = JSON.parse(localStorage(STORAGE_KEY) || '[]');
+window.reestriusStorage = {
+    fetch(storeKey) {
+        let settings = JSON.parse(localStorage.getItem(storeKey) || '[]');
         settings.forEach(function (setting, index) {
             setting.id = index
         });
         reestriusStorage.uid = settings.length;
+        console.log(settings);
         return settings
     },
-    save(settings) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(settings))
+    save(settings, storeKey) {
+        localStorage.setItem(storeKey, JSON.stringify(settings))
     }
 };
 
@@ -32,17 +34,9 @@ const objectsData = {
         all: []
     },
     getters: {
-        links: state => (id) => state.all.filter(el => el.id !== id).map(el=> {
-            return {text: el.name, value: el.id}
-        }),
-        objectById: (state, getters) => (id) => {
-            return state.all.find(el => el.id === id)
-        },
-        nodes: (state, getters) => {
-            return state.all.map(el => {
-                return {id: el.id, label: el.name, group: el.type}
-            })
-        }
+        links: state => id => state.all.filter(el => el.id !== id).map(el => ({text: el.name, value: el.id})),
+        objectById: (state, getters) => id => state.all.find(el => el.id === id),
+        nodes: (state, getters) => state.all.map(el => ({id: el.id, label: el.name, group: el.type}))
     },
     mutations: {
         [types.objects.ADD_ITEM] (state, item) {
@@ -66,11 +60,9 @@ const propertiesData = {
         all :[]
     },
     getters: {
-        meta: state => (id) => state.all.map(el=> {
-            return {text: el.name, value: el.id}
-        }),
-        propertyById: state => (id) => state.all.filter(el => el.id === id),
-        propertyByCode: state => (code) => state.all.filter(el => el.code === code),
+        meta: state => id => state.all.map(el => ({text: el.name, value: el.id})),
+        propertyById: state => id => state.all.filter(el => el.id === id),
+        propertyByCode: state => code => state.all.filter(el => el.code === code),
     },
     mutations: {
         [types.properties.ADD_ITEM] (state, item) {
@@ -106,24 +98,20 @@ const store = new Vuex.Store({
         },
     },
     getters: {
-        getProps: (state, getters) => {
-            return function(tab,id){
+        getProps: (state, getters) => function(tab,id){
                 return getters[tab](id)
-            }
-        },
+            },
         currentModule: state => state[state.activeEditor],
         editorItems : (state, getters) => state.activeEditor ? getters.currentModule.all : [],
-        itemById: (state, getters) => (id) => {
-            return getters.editorItems.find(el => el.id === id)
-        },
-        activeItem: (state, getters) => {
+        itemById: (state, getters) => id => getters.editorItems.find(el => el.id === id),
+        activeItem: state => {
             let item = getters.editorItems.find(el => el.selected);
             if (item === undefined) {
                 return null
             }
             return item.hasOwnProperty("id")? item.id : null
         },
-        _r : (state, getters) => (text) => state.lang.RU[text]
+        _r : state => (text, lang) => state.lang[lang][text]? state.lang[lang][text] : text
     },
     actions: {
         addItem ({commit, state}, item) {
