@@ -12,6 +12,12 @@ module.exports = {
     module: {
         rules: [
             {
+                enforce: "pre",
+                test: /\.(js|vue)$/,
+                exclude: /node_modules/,
+                loader: "eslint-loader",
+            },
+            {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: {
@@ -32,6 +38,8 @@ module.exports = {
                 include: [
                     path.resolve('node_modules', 'vue/dist'),
                     path.resolve('node_modules', 'bootstrap-vue/dist'),
+                    path.resolve('node_modules', 'vuex/dist'),
+                    path.resolve('node_modules', 'vue-router/dist'),
                 ]
             },
             {
@@ -77,21 +85,19 @@ module.exports = {
         historyApiFallback: true,
         noInfo: true
     },
-    performance: {
-        hints: "warning"
-    },
     devtool: "inline-source-map",
     plugins: [
         new webpack.NamedModulesPlugin(),
         new webpack.ProvidePlugin({
-            // Tether: "tether",
+            // c Tether: "tether",
             // "window.Tether": "tether",
-            Vue: "vue",
-            'window.Vue': 'vue',
-            VueResource: "exports-loader?plugin!vue-resource/dist/vue-resource.es2015",
-            // BootstrapVue: "exports-loader?VuePlugin!bootstrap-vue/lib/index",
-            BootstrapVue: "exports-loader?VuePlugin!bootstrap-vue/dist/bootstrap-vue.esm",
-            Vuex: "exports-loader?index_esm!vuex/dist/vuex.esm",
+            Vue: ['vue/dist/vue.esm.js'],
+            VueRouter: ["vue-router/dist/vue-router.esm"],
+            VueResource: ["vue-resource/dist/vue-resource.es2015", 'default'],
+            // c BootstrapVue: "exports-loader?VuePlugin!bootstrap-vue/lib/index",
+            BootstrapVue: ["bootstrap-vue/dist/bootstrap-vue.esm"],
+            // c Vuex: "exports-loader?index_esm!vuex/dist/vuex.esm",
+            Vuex: ["vuex/dist/vuex.esm", 'default'],
             "_": "lodash",
             "window._": "lodash"
         })

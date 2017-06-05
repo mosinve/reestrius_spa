@@ -11,6 +11,9 @@ module.exports = {
         },
         "sourceType": "module"
     },
+    "plugins": [
+        "html"
+    ],
     "rules": {
         "accessor-pairs": "error",
         "array-bracket-spacing": [
@@ -18,7 +21,7 @@ module.exports = {
             "never"
         ],
         "array-callback-return": "off",
-        "arrow-body-style": "error",
+        "arrow-body-style": ["error", "never"],
         "arrow-parens": [
             "error",
             "as-needed"
@@ -38,10 +41,6 @@ module.exports = {
         "brace-style": "off",
         "callback-return": "error",
         "camelcase": "error",
-        "capitalized-comments": [
-            "error",
-            "never"
-        ],
         "class-methods-use-this": "error",
         "comma-dangle": "off",
         "comma-spacing": "off",
@@ -116,7 +115,7 @@ module.exports = {
         "no-bitwise": "error",
         "no-caller": "error",
         "no-catch-shadow": "error",
-        "no-confusing-arrow": "error",
+        "no-confusing-arrow": ["error", {"allowParens": true}],
         "no-continue": "error",
         "no-div-regex": "error",
         "no-duplicate-imports": "error",
@@ -197,7 +196,7 @@ module.exports = {
         "no-underscore-dangle": "error",
         "no-unmodified-loop-condition": "error",
         "no-unneeded-ternary": "error",
-        "no-unused-expressions": "error",
+        "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
         "no-use-before-define": "error",
         "no-useless-call": "error",
         "no-useless-computed-key": "error",

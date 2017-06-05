@@ -52,11 +52,11 @@
                                 </b-btn>
                             </div>
                             <property v-for="(prop, index) in props[tab.id]" :key="prop.code" :id="prop.code">
-                                {{$store.getters._r(prop.code, 'RU') || prop.name}}
+                                {{$store.getters.trans(prop.code, 'RU') || prop.name}}
                             </property>
                             <b-form-fieldset horizontal
                                              class="col "
-                                             :label="$store.getters._r(prop.code, 'RU') || prop.name"
+                                             :label="$store.getters.trans(prop.code, 'RU') || prop.name"
                                              :label-size="4"
                                              :key="prop.code"
                                              :id="prop.code"
@@ -98,6 +98,7 @@
     import property from './property.vue'
 
     let DataProperty = function ({id, name = '', code = '', type = 'String', value = null, options = null}, store = null) {
+// eslint-disable-next-line no-unused-vars
         const $store = store;
         this.id = id;
         this.selected = false;
@@ -243,8 +244,7 @@
             },
             data      : {
                 type   : Object,
-                default: () => {
-                }
+                default: {}
             },
             value     : {
                 type   : Number,
@@ -262,9 +262,7 @@
                 return this.$store.state.activeEditor
             },
             tabs() {
-                return this.data.hasOwnProperty('dlgData') && this.data.dlgData.tabs.length ? this.data.dlgData.tabs.map(tab => {
-                    return {id: tab, title: this.$store.getters._r(tab, 'RU'), prop: this.newProp[tab]}
-                }, this) : null;
+                return Object.prototype.hasOwnProperty.call(this.data, 'dlgData') && this.data.dlgData.tabs.length ? this.data.dlgData.tabs.map(tab => ({id: tab, title: this.$store.getters.trans(tab, 'RU'), prop: this.newProp[tab]}), this) : null;
             },
             title() {
                 return this.$store.state.lang.RU[this.type]
@@ -275,7 +273,7 @@
         },
         methods   : {
             addItem(type) {
-                let newobj = Data(type, {id: this.objects.length + 1}, this.$store);
+                let newobj = new Data(type, {id: this.objects.length + 1}, this.$store);
                 this.$store.dispatch('addItem', newobj);
                 this.$nextTick(function () {
                         this.setActive(newobj.id)
@@ -288,7 +286,7 @@
                     this.$store.commit('toggleItem', {id: activeItem, active: false})
                 }
 //                this.$set(this.$refs[this.type][index], 'active', true);
-                this.$store.commit('toggleItem', {id: id, active: true})
+                this.$store.commit('toggleItem', {id, active: true})
 //                this.$refs[this.type][index].active = true;
                 this.selectedItemId = id;
                 this.selectedItem = this.$store.getters.itemById(this.selectedItemId)
@@ -296,23 +294,25 @@
 
             getActive(){
                 let active = -1;
+// eslint-disable-next-line arrow-body-style
                 this.$refs[this.type].forEach((item, index) => {
                     if (item.active) {
                         active = this.$store.getters.editorItems[index].id;
                     }
+                    return true;
                 });
                 return active;
             },
             modalOK(){
-                console.log('modalOk');
+//                console.log('modalOk');
             },
             modalCancel(){
-                console.log(this)
+//                console.log(this)
             },
             hidden(){
                 this.selectedItemId = null;
                 this.tabIndex = 0;
-                console.log('im closed');
+//                console.log('im closed');
                 this.$store.getters.editorItems.forEach(el => this.$store.commit('toggleItem', {
                     id    : el.id,
                     active: false
@@ -321,7 +321,8 @@
         },
         watch     : {
             filter(value) {
-                console.info(value)
+                return value;
+//                console.info(value)
             }
         }
     }
