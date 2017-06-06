@@ -1,14 +1,12 @@
 module.exports = function(h, that) {
     var rows = [];
-    var groups = [];
     var columns;
     var rowKey = that.opts.uniqueKey;
-    var parentKey = that.opts.groupBy;
-    var last;      
+    var last;
     var rowClass;
     var data = that.source=='client'?that.filteredData:that.tableData;
 
-    data.map(function(row, index) 
+    data.map(function(row)
     {
       columns = [];
       

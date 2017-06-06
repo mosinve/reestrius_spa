@@ -12,6 +12,12 @@ module.exports = {
     module: {
         rules: [
             {
+                enforce: "pre",
+                test: /\.(js|vue)$/,
+                exclude: /node_modules/,
+                loader: "eslint-loader",
+            },
+            {
                 test: /\.vue$/,
                 loader: 'vue-loader',
                 options: {
@@ -23,19 +29,18 @@ module.exports = {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/,
-                // include: [
-                //     fs.realpath('node_modules', 'vue/dist')
-                //     // fs.realpath('node_modules', 'bootstrap-vue/dist'),
-                // ],
             },
-            { // if you use vue.common.js, you can remove it
+            {
+                // if you use vue.common.js, you can remove it
                 test: /\.esm.js$/,
                 loader: 'babel-loader',
-                exclude: /node_modules\/(?!vue)/,
-                // include: [
-                //     path.resolve('node_modules', 'vue/dist'),
-                //     path.resolve('node_modules', 'bootstrap-vue/dist'),
-                // ]
+                //exclude: /node_modules\/(?!vue(?!\W))/,
+                include: [
+                    path.resolve('node_modules', 'vue/dist'),
+                    path.resolve('node_modules', 'bootstrap-vue/dist'),
+                    path.resolve('node_modules', 'vuex/dist'),
+                    path.resolve('node_modules', 'vue-router/dist'),
+                ]
             },
             {
                 test: /\.jsx?$/,
@@ -80,19 +85,21 @@ module.exports = {
         historyApiFallback: true,
         noInfo: true
     },
-    performance: {
-        hints: "warning"
-    },
     devtool: "inline-source-map",
     plugins: [
         new webpack.NamedModulesPlugin(),
         new webpack.ProvidePlugin({
-            Tether: "tether",
-            "window.Tether": "tether",
-            Vue: "vue",
-            'window.Vue': 'vue',
-            VueResource: "exports-loader?plugin!vue-resource/dist/vue-resource.es2015",
-            BootstrapVue: "exports-loader?VuePlugin!bootstrap-vue/dist/bootstrap-vue.esm",
+            // c Tether: "tether",
+            // "window.Tether": "tether",
+            Vue: ['vue/dist/vue.esm.js'],
+            VueRouter: ["vue-router/dist/vue-router.esm"],
+            VueResource: ["vue-resource/dist/vue-resource.es2015", 'default'],
+            // c BootstrapVue: "exports-loader?VuePlugin!bootstrap-vue/lib/index",
+            BootstrapVue: ["bootstrap-vue/dist/bootstrap-vue.esm"],
+            // c Vuex: "exports-loader?index_esm!vuex/dist/vuex.esm",
+            Vuex: ["vuex/dist/vuex.esm", 'default'],
+            "_": "lodash",
+            "window._": "lodash"
         })
     ]
 };

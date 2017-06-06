@@ -2,11 +2,11 @@ module.exports = function(h, that) {
 
     if (that.opts.pagination && that.opts.pagination.dropdown) {
 
-    var pages = [];
-    var selected;
+    let pages = [];
+    let selected;
 
     for (var pag=1; pag<=that.totalPages; pag++) {
-      var selected = that.page==pag;
+      selected = that.page==pag;
       pages.push(<option value={pag} selected={selected}>{pag}</option>)
     }
 
