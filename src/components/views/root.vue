@@ -16,8 +16,8 @@
 </template>
 
 <script>
-    import viewScheme from './viewScheme.vue';
-    import viewTable from './viewTable.vue';
+    import viewScheme from './scheme.vue';
+    import viewTable from './table.vue';
 
     export default {
         name: 'View',

@@ -1,8 +1,8 @@
 /**
  * Created by MosinVE on 05.06.2017.
  */
-import propEditor from './propeditor.vue'
-import View from './view.vue'
+import propEditor from './components/views/properties.vue'
+import View from './components/views/root.vue'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 

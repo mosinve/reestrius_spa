@@ -180,7 +180,7 @@
                 }, this);
                 let updateArray = [];
                 for (let nodeId in  allNodes) {
-                    if (Object.hasOwnProperty.call(allNodes, 'nodeId')) {
+                    if (Object.hasOwnProperty.call(allNodes, nodeId)) {
                         updateArray.push(allNodes[nodeId]);
                     }
                 }
@@ -191,7 +191,7 @@
                 if (this.highlightActive === true) {
                     // reset all nodes
                     for (let nodeId in  allNodes) {
-                        if (Object.hasOwnProperty.call(allNodes, 'nodeId')) {
+                        if (Object.hasOwnProperty.call(allNodes, nodeId)) {
                             delete allNodes[nodeId].color;
                             delete allNodes[nodeId].icon;
                             if (typeof allNodes[nodeId].hiddenLabel !== 'undefined') {
@@ -203,7 +203,7 @@
                     this.highlightActive = false;
                     let updateArray = [];
                     for (let nodeId in  allNodes) {
-                        if (Object.hasOwnProperty.call(allNodes, 'nodeId')) {
+                        if (Object.hasOwnProperty.call(allNodes, nodeId)) {
                             updateArray.push(allNodes[nodeId]);
                         }
                     }

@@ -1,6 +1,8 @@
 /**
  * created by MosinVE on 04.04.2017.
  */
+
+
 export default {
     tableData :
         [

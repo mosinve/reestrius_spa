@@ -56,7 +56,7 @@
 </template>
 
 <script>
-    import editor from './editor.vue';
+    import editor from '../editor.vue';
     export default {
         extends: editor
     }

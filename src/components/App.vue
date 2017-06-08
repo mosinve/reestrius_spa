@@ -18,13 +18,17 @@
                 </form>
             </b-collapse>
         </b-navbar>
-        <router-view></router-view>
+        <keep-alive>
+            <transition name="fade" mode="out-in">
+                <router-view></router-view>
+            </transition>
+        </keep-alive>
         <editor ref="editor" :data="editorData"></editor>
     </div>
 </template>
 <script>
-    import viewScheme from './viewScheme.vue';
-    import viewTable from './viewTable.vue';
+    import viewScheme from './views/scheme.vue';
+    import viewTable from './views/table.vue';
     import editor from './editor.vue'
 
     const filter = {
