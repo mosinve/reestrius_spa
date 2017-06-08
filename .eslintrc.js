@@ -5,11 +5,18 @@ module.exports = {
         "es6": true
     },
     "extends": "eslint:recommended",
+    // "parserOptions": {
+    //     "ecmaVersion": 7,
+    //     "ecmaFeatures": {
+    //         "jsx": true
+    //     },
+    //     "sourceType": "module"
+    // },
+    "parser": "babel-eslint",
     "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "sourceType": "module"
+        "sourceType": "module",
+        "allowImportExportEverywhere": false,
+        "codeFrame": false
     },
     "plugins": [
         "html"
@@ -100,7 +107,7 @@ module.exports = {
         "max-len": "off",
         "max-lines": "error",
         "max-nested-callbacks": "error",
-        "max-params": "error",
+        "max-params": ["error", 4],
         "max-statements": "off",
         "max-statements-per-line": "off",
         "multiline-ternary": "off",

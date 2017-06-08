@@ -1,29 +1,29 @@
-/* eslint-disable no-unused-vars,no-undef */
+/* eslint-disable no-unused-vars,no-undef,no-inline-comments */
 module.exports = function(source) {
     return function(h) {
 
-// var rows = require('./template/rows')(h, this)
-// var normalFilter = require('/node_modules/vue-tables-2/compiled/template/normal-filter')(h, this)
+// var rows = require('./table-template/rows')(h, this)
+// var normalFilter = require('/node_modules/vue-tables-2/compiled/table-template/normal-filter')(h, this)
 // var dropdownPagination = require('/node_modules/vue-tables-2/compiled/dropdown-pagination')(h, this)
-// var columnFilters = require('/node_modules/vue-tables-2/compiled/template/column-filters')(h, this);
+// var columnFilters = require('/node_modules/vue-tables-2/compiled/table-template/column-filters')(h, this);
 // var footerHeadings = require('/node_modules/vue-tables-2/compiled/footer-headings')(h, this);
 // var noResults = require('/node_modules/vue-tables-2/compiled/no-results')(h, this);
 // var pagination = require('/node_modules/vue-tables-2/compiled/pagination')(h, this);
 // var dropdownPaginationCount = require('/node_modules/vue-tables-2/compiled/dropdown-pagination-count')(h, this);
-// var headings = require('/node_modules/vue-tables-2/compiled/template/headings')(h, this);
-// var perPage = require('/node_modules/vue-tables-2/compiled/template/per-page')(h, this);
+// var headings = require('/node_modules/vue-tables-2/compiled/table-template/headings')(h, this);
+// var perPage = require('/node_modules/vue-tables-2/compiled/table-template/per-page')(h, this);
 
 
-        var rows = require('./template/rows')(h, this);
-        var normalFilter = require('./template/normal-filter')(h, this);
-        var dropdownPagination = require('./template/dropdown-pagination')(h, this);
-        var columnFilters = require('./template/column-filters')(h, this);
-        var footerHeadings = require('./template/footer-headings')(h, this);
-        var noResults = require('./template/no-results')(h, this);
-        var pagination = require('./template/pagination')(h, this);
-        var dropdownPaginationCount = require('./template/dropdown-pagination-count')(h, this);
-        var headings = require('./template/headings')(h, this);
-        var perPage = require('./template/per-page')(h, this);
+        var rows = require('./table-template/rows')(h, this);
+        var normalFilter = require('./table-template/normal-filter')(h, this);
+        var dropdownPagination = require('./table-template/dropdown-pagination')(h, this);
+        var columnFilters = require('./table-template/column-filters')(h, this);
+        var footerHeadings = require('./table-template/footer-headings')(h, this);
+        var noResults = require('./table-template/no-results')(h, this);
+        var pagination = require('./table-template/pagination')(h, this);
+        var dropdownPaginationCount = require('./table-template/dropdown-pagination-count')(h, this);
+        var headings = require('./table-template/headings')(h, this);
+        var perPage = require('./table-template/per-page')(h, this);
 
         return <div class={"w-75 VueTables VueTables--" + this.source}>
             <div class="row">

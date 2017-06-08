@@ -2,7 +2,7 @@
   "presets": [
     [ "env", {
       "debug": true
-    }]
+    }], "stage-2"
   ],
   "plugins": [
     "transform-vue-jsx",
