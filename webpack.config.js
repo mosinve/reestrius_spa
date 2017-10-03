@@ -14,7 +14,7 @@ module.exports = {
             {
                 enforce: "pre",
                 test: /\.(js|vue)$/,
-                exclude: /node_modules/,
+                exclude: ["/node_modules/",fs.realpathSync(path.resolve('node_modules/bootstrap-vue/'))],
                 loader: "eslint-loader",
             },
             {
@@ -28,13 +28,14 @@ module.exports = {
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                exclude: /node_modules/,
+                exclude: /node_modules/
             },
             {
                 // if you use vue.common.js, you can remove it
                 test: /\.esm.js$/,
                 loader: 'babel-loader',
-                //exclude: /node_modules\/(?!vue(?!\W))/,
+                // exclude: /node_modules\/(?!vue(?!\W))/,
+                exclude: fs.realpathSync(path.resolve('node_modules/bootstrap-vue/')),
                 include: [
                     path.resolve('node_modules', 'vue/dist'),
                     path.resolve('node_modules', 'bootstrap-vue/dist'),
@@ -66,7 +67,6 @@ module.exports = {
                 loader: 'babel-loader',
                 query: {
                     cacheDirectory: true,
-                    presets: ["es2015"],
                     plugins: [
                         "transform-es3-property-literals",
                         "transform-es3-member-expression-literals",
@@ -77,6 +77,7 @@ module.exports = {
         ]
     },
     resolve: {
+        symlinks: true,
         alias: {
             'vue$': 'vue/dist/vue.esm.js'
         }
@@ -89,14 +90,10 @@ module.exports = {
     plugins: [
         new webpack.NamedModulesPlugin(),
         new webpack.ProvidePlugin({
-            // c Tether: "tether",
-            // "window.Tether": "tether",
             Vue: ['vue/dist/vue.esm.js'],
             VueRouter: ["vue-router/dist/vue-router.esm"],
             VueResource: ["vue-resource/dist/vue-resource.es2015", 'default'],
-            // c BootstrapVue: "exports-loader?VuePlugin!bootstrap-vue/lib/index",
             BootstrapVue: ["bootstrap-vue/dist/bootstrap-vue.esm"],
-            // c Vuex: "exports-loader?index_esm!vuex/dist/vuex.esm",
             Vuex: ["vuex/dist/vuex.esm", 'default'],
             "_": "lodash",
             "window._": "lodash"

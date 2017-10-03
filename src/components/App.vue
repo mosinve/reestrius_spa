@@ -1,10 +1,8 @@
 <template>
     <div id="app" class="bg-faded d-flex flex-column">
-        <b-navbar toggleable type="inverse" variant="inverse" sticky="top">
+        <b-navbar toggleable type="dark" variant="dark" sticky>
             <b-nav-toggle target="nav_collapse"/>
-            <a class="navbar-brand" href="#">
-                {{$store.getters.trans('appname', 'RU')}}
-            </a>
+            <b-navbar-brand href="#">{{$store.getters.trans('appname', 'RU')}}</b-navbar-brand>
             <b-collapse isNav id="nav_collapse">
                 <b-nav isNavBar class="mr-auto">
                     <b-nav-item-dropdown text="Справочники" size="sm">

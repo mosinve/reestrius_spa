@@ -97,7 +97,7 @@
 
     import property from '../property.vue'
 
-    let DataProperty = function ({id, name = '', code = '', type = 'String', value = null, options = null}, store = null) {
+    let DataProperty = function ({id, name = '', code = '', type = 'String', value = null}, store = null) {
 // eslint-disable-next-line no-unused-vars
         const $store = store;
         this.id = id;

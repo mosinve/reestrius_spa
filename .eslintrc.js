@@ -5,13 +5,6 @@ module.exports = {
         "es6": true
     },
     "extends": "eslint:recommended",
-    // "parserOptions": {
-    //     "ecmaVersion": 7,
-    //     "ecmaFeatures": {
-    //         "jsx": true
-    //     },
-    //     "sourceType": "module"
-    // },
     "parser": "babel-eslint",
     "parserOptions": {
         "sourceType": "module",
@@ -19,7 +12,7 @@ module.exports = {
         "codeFrame": false
     },
     "plugins": [
-        "html"
+        "html", "vue"
     ],
     "rules": {
         "accessor-pairs": "error",
@@ -188,7 +181,6 @@ module.exports = {
         "no-shadow": "error",
         "no-shadow-restricted-names": "error",
         "no-spaced-func": "error",
-        "no-sync": "error",
         "no-tabs": "off",
         "no-template-curly-in-string": "error",
         "no-ternary": "off",

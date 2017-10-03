@@ -168,7 +168,7 @@
                 let back = [];
                 let front = [];
                 if (color.back) {
-                     back = this.setBackColor(allNodes, color.back);
+                     back = this.setBackColor(allNodes.filter(node => !nodes.includes(node.id)), color.back);
                 }
                 if (color.front) {
                     front = this.setFrontColor(allNodes.filter(node => nodes.includes(node.id)), color.front);
@@ -235,9 +235,9 @@
             this.datasetNodes.on('update', function (event, properties) {
                 window.reestriusStorage.save(properties.data, window.NODE_POSITIONS_KEY)
             });
-//            if (window.reestriusStorage.uid !== 0) {
-//                this.options.physics.stabilization = false
-//            }
+            if (window.reestriusStorage.uid > 0) {
+                networkOptions.physics.stabilization.onlyDynamicEdges = true
+            }
             this.network = new vis.Network(this.container, data, networkOptions);
             this.network.on("select", this.getDependSubtree);
             this.network.on("hold", this.getAffectedSubtree);

@@ -23,17 +23,18 @@ window.NODE_POSITIONS_KEY = 'reestrius_app'
  * @type {{fetch: ((storeKey?)), save: ((settings?, storeKey?))}}
  */
 window.reestriusStorage = {
+    uid:null,
     fetch(storeKey) {
-        let settings = JSON.parse(localStorage.getItem(storeKey) || '[]')
+        let settings = JSON.parse(window.localStorage.getItem(storeKey) || '[]')
         settings.forEach(function (setting, index) {
             setting.id = index
         })
-        reestriusStorage.uid = settings.length
+        this.uid = settings.length
         // console.log(settings);
         return settings
     },
     save(settings, storeKey) {
-        localStorage.setItem(storeKey, JSON.stringify(settings))
+        window.localStorage.setItem(storeKey, JSON.stringify(settings))
     }
 }
 
