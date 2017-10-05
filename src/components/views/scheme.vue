@@ -19,6 +19,8 @@
         };
     }
 
+    const FRONT_COLOR = 'rgba(255, 0, 0, 1)'
+    const BACK_COLOR = 'rgba(200,200,200,0.5)'
     const networkOptions = {
         interaction: {
             navigationButtons: true,
@@ -123,9 +125,9 @@
         targetNodesIds.forEach(function (node) {
             currentLinkedNodes = srcEdges.get().filter(edge => network.getConnectedEdges(node).includes(edge.id) && (edge[direction] !== node))
                 .map(edge => edge[direction]);
-            allAffectedNodes = allAffectedNodes.concat(currentLinkedNodes, getAffectedNodesIds(currentLinkedNodes, direction, network, srcEdges).filter(id => !currentLinkedNodes.includes(id)))
+            allAffectedNodes = [...allAffectedNodes, ...currentLinkedNodes, ...getAffectedNodesIds(currentLinkedNodes, direction, network, srcEdges).filter(id => !currentLinkedNodes.includes(id))]
         });
-        return targetNodesIds.concat(allAffectedNodes);
+        return [...targetNodesIds, ...allAffectedNodes];
     }
 
     export default {
@@ -138,23 +140,23 @@
             }
         },
         methods: {
-            getNodes() {
-                return this.datasetNodes.get()
+            getNodes(ids) {
+                return this.datasetNodes.get(ids)
             },
             setBackColor(nodes, color){
                 return nodes.map(function(node){
-                        node.color = color;
-                        if (typeof node.hiddenLabel === 'undefined') {
-                            node.hiddenLabel = node.label;
-                            delete node.label;
-                        }
-                        node.icon = {color};
-                        return node;
+                    node.color = color;
+                    if (typeof node.hiddenLabel === 'undefined') {
+                        node.hiddenLabel = node.label;
+                        delete node.label;
+                    }
+                    node.icon = {color};
+                    return node;
                 });
             },
             setFrontColor(nodes, color) {
                return nodes.map(function (node) {
-                    node.color = color;
+                   node.color = color;
                     if (typeof node.hiddenLabel !== 'undefined') {
                         node.label = node.hiddenLabel;
                         delete node.hiddenLabel;
@@ -164,68 +166,64 @@
                 });
             },
             highlight(nodes, color) {
-                let allNodes = this.getNodes();
+                let selectedNodes = this.getNodes(nodes);
+                let allNodes = this.getNodes({filter: node => !nodes.includes(node.id)});
                 let back = [];
                 let front = [];
                 if (color.back) {
-                     back = this.setBackColor(allNodes.filter(node => !nodes.includes(node.id)), color.back);
+                     back = this.setBackColor(allNodes, color.back);
                 }
                 if (color.front) {
-                    front = this.setFrontColor(allNodes.filter(node => nodes.includes(node.id)), color.front);
+                    front = this.setFrontColor(selectedNodes, color.front);
                 }
 
                 this.datasetNodes.update([...front, ...back]);
                 this.highlighted = true;
             },
             resetHighlight() {
-                let allNodes = this.getNodes();
+                let selectedNodes = this.getNodes();
                 if (this.highlighted === true) {
                     // reset all nodes
-                    for (let nodeId in  allNodes) {
-                        if (Object.prototype.hasOwnProperty.call(allNodes, nodeId)) {
-                            delete allNodes[nodeId].color;
-                            delete allNodes[nodeId].icon;
-                            if (typeof allNodes[nodeId].hiddenLabel !== 'undefined') {
-                                allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
-                                delete allNodes[nodeId].hiddenLabel;
-                            }
+                    selectedNodes.forEach(function (node) {
+                        delete node.color;
+                        delete node.icon;
+                        if (typeof node.hiddenLabel !== 'undefined') {
+                            node.label = node.hiddenLabel;
+                            delete node.hiddenLabel;
                         }
-                    }
+                    })
                     this.highlighted = false;
-                    let updateArray = [];
-                    for (let nodeId in  allNodes) {
-                        if (Object.hasOwnProperty.call(allNodes, nodeId)) {
-                            updateArray.push(allNodes[nodeId]);
-                        }
-                    }
-                    this.datasetNodes.update(updateArray);
+                    this.datasetNodes.update(selectedNodes);
                 }
             },
-            getAffectedSubtree(params) {
-                if (params.nodes.length > 0 && params.event.type === 'press') {
-                    this.resetHighlight(params);
+            selectNodes(params) {
+                let color;
+                let destination;
+                switch (params.event.type){
+                case 'press':
+                    color = {front: FRONT_COLOR, back: BACK_COLOR};
+                    destination = 'to';
+                    break;
+                case 'tap':
+                    color = {back: BACK_COLOR};
+                    destination = 'from'
+                    break;
+                }
+
+                if (params.nodes.length) {
+                    this.resetHighlight();
                     let selectedNodes = params.nodes;
-                    let connectedNodes = getAffectedNodesIds.call(this, selectedNodes, 'to',this.network, this.datasetEdges);
+                    let connectedNodes = getAffectedNodesIds.call(this, selectedNodes, destination,this.network, this.datasetEdges);
 
-                    this.highlight(connectedNodes, {front: 'rgba(255, 0, 0, 1)', back: 'rgba(200,200,200,0.5)'});
+                    this.highlight(connectedNodes, color);
                 }
-                else if (params.nodes.length === 0) this.resetHighlight()
             },
-            getDependSubtree(params) {
-                if (params.nodes.length && params.event.type === 'tap') {
-                    this.highlighted = true;
-                    let connectedNodes = getAffectedNodesIds.call(this, params.nodes, 'from', this.network, this.datasetEdges);
-
-                    this.highlight(connectedNodes, {back: 'rgba(200,200,200,0.5)'});
-                }
-                else if (params.nodes.length === 0) this.resetHighlight()
-            }
         },
         mounted() {
 //            this.datasetNodes = new vis.DataSet(this.$store.getters.nodes);
             this.datasetNodes = new vis.DataSet(this.$root.appData.Nodes);
             const staticPositions = window.reestriusStorage.fetch(window.NODE_POSITIONS_KEY);
-            staticPositions && this.datasetNodes.update(this.datasetNodes.map((item, id) => Object.assign(item, staticPositions[id])));
+            staticPositions && this.datasetNodes.update(this.datasetNodes.map((item, id) => ({...item, ...staticPositions[id]})));
             this.datasetEdges = new vis.DataSet(this.$root.appData.Edges);
             this.container = document.getElementById('canvas');
             let data = {
@@ -239,21 +237,19 @@
                 networkOptions.physics.stabilization.onlyDynamicEdges = true
             }
             this.network = new vis.Network(this.container, data, networkOptions);
-            this.network.on("select", this.getDependSubtree);
-            this.network.on("hold", this.getAffectedSubtree);
+            this.network.on("selectNode", this.selectNodes);
+            this.network.on("deselectNode", this.resetHighlight)
             this.network.on("stabilized", this.network.storePositions);
-            this.$root.$on('query', function (query) {
+            // eslint-disable-next-line arrow-body-style
+            this.$root.$on('query', query => {
+                this.resetHighlight()
                 if (query) {
                     let filtered = this.datasetNodes.getIds({
-                        filter: function (item) {
-                            let filter = item.label ? item.label : item.hiddenLabel;
-                            return filter.toLocaleLowerCase().includes(query.toLocaleLowerCase())
-                        }.bind(this)
+                        filter: item => item.label.toLocaleLowerCase().includes(query.toLocaleLowerCase())
                     });
-                    this.highlight(filtered, {back: 'rgba(200, 200, 200, 0.5)'});
+                    this.highlight(filtered, {back: BACK_COLOR});
                 }
-                else this.resetHighlight()
-            }.bind(this));
+            });
             console.log(this.network.getSeed());
         },
 
@@ -262,8 +258,3 @@
         }
     }
 </script>
-
-<style lang="css" scoped>
-
-</style>
-
